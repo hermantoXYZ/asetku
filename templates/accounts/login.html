@@ -1,0 +1,31 @@
+{% extends 'accounts/base.html' %}
+{%block title%}Login User{%endblock%}
+
+{%block content%}
+<div class="container-register">
+    <h2>Login</h2>
+    <p>Buat akun terlebih dahulu untuk menikmati layanan Inviteku.com</p>
+    {% if msg %}
+        <span class="text-error">{{ msg | safe }}</span>
+    {% endif %}
+    <form method="post">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="username">Username</label>
+            {{ form.username }}
+        </div>
+        <div class="form-group">
+            <label for="password">Password</label>
+            {{ form.password }}
+        </div>
+        <span class="text-error">{{ form.errors }}</span>
+        <input type="submit" value="Login" class="btn-primary">
+    </form>
+    <div class="text-reset-password-sm">Anda Lupa Password?
+        <a href="{% url 'password_reset' %}" class="reset-password-sm">Lupa Password</a>
+        </div> 
+        <div class="text-reset-password">Belum punya akun?
+            <a href="{% url 'register' %}" class="reset-password">Register</a>
+            </div> 
+  </div>
+{%endblock%}

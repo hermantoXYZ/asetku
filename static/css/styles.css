@@ -1,0 +1,250 @@
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600;700&display=swap');
+
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #ffffff;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+header {
+    width: 100%;
+    background-color: #17a2b8;
+    padding: 20px 0;
+    text-align: center;
+    color: white;
+}
+header h1 {
+    margin: 0;
+    font-size: 24px;
+}
+
+img {
+    width: 100px;
+    height: 100%;
+}
+.container-register {
+    width: 100%;
+    max-width: 400px;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    margin-top: 30px;
+}
+.container-register h2 {
+    margin-bottom: 20px;
+    font-size: 24px;
+    font-weight: bold;
+    text-align: center;
+}
+.container-register p {
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 14px;
+    color: #555;
+}
+.form-group {
+    margin-bottom: 15px;
+}
+.form-group label {
+    margin-bottom: 5px;
+    display: block;
+    font-weight: bold;
+    font-size: 14px;
+}
+.form-group input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 14px;
+}
+.btn-primary {
+    width: 100%;
+    padding: 10px;
+    background-color: #17a2b8;
+    border: none;
+    border-radius: 4px;
+    color: #fff;
+    font-size: 16px;
+    cursor: pointer;
+    margin-top: 15px;
+}
+.btn-primary:hover {
+    background-color: #138496;
+}
+
+/* Error Text */
+.text-error {
+    color: #ff1010;
+    font-size: 14px;
+    margin-top: -30px;
+    padding-bottom: -5px;
+    margin-bottom: 20px;
+}
+
+
+.errorlist {
+    list-style-type: none; 
+    padding: 0;
+}
+
+
+.errorlist li {
+    margin-bottom: 5px; 
+}
+
+
+
+
+.reset-password {
+    
+    text-align: center;
+    margin-top: 10px;
+    color: #17a2b8;
+    text-decoration: none;
+    font-size: 14px;
+}
+
+.reset-password-sm {
+    
+    text-align: center;
+    margin-top: 9px;
+    color: #66696a;
+    text-decoration: none;
+    font-size: 12px;
+}
+
+.text-reset-password-sm {
+    display: block;
+    text-align: left;
+    margin-top: 10px;
+    color: #737373;
+    text-decoration: none;
+    font-size: 12px;
+}
+
+
+.reset-password:hover {
+    text-decoration: underline;
+    color: #000;
+}
+
+.text-reset-password {
+    display: block;
+    text-align: center;
+    margin-top: 10px;
+    color: #17a2b8;
+    text-decoration: none;
+    font-size: 14px;
+}
+
+
+
+.reset-password:hover {
+    text-decoration: underline;
+    color: #000;
+}
+
+ .form-check {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        /* Styling for the switch container */
+        .form-switch {
+            position: relative;
+            display: inline-block;
+            width: 100%;
+            height: 20px;
+            margin-right: 10px;
+            margin-bottom: 30px;
+        }
+
+        /* Hide default checkbox */
+        .form-check-input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        /* Create custom switch slider */
+        .form-check-input + .form-check-label::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 34px;
+            height: 20px;
+            background-color: #ccc;
+            border-radius: 20px;
+            transition: background-color 0.2s;
+        }
+
+        /* Create custom switch knob */
+        .form-check-input + .form-check-label::after {
+            content: "";
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            width: 16px;
+            height: 16px;
+            background-color: white;
+            border-radius: 50%;
+            transition: transform 0.2s;
+        }
+
+        /* Checked state */
+        .form-check-input:checked + .form-check-label::before {
+            background-color: #17a2b8;
+        }
+
+        .form-check-input:checked + .form-check-label::after {
+            transform: translateX(14px);
+        }
+
+        /* Styling for the label */
+        .form-check-label {
+            font-size: 14px;
+            font-weight: bold;
+            color: #333;
+            cursor: pointer;
+            padding: 30px;
+        }
+
+
+/* CSS untuk perangkat mobile */
+@media only screen and (max-width: 600px) {
+    .container-register {
+        width: 90%; /* Mengisi lebar layar pada perangkat mobile */
+        max-width: none; /* Menghapus batasan maksimum lebar */
+        border-radius: 0; /* Menghapus radius sudut */
+        margin-top: 10px; /* Mengurangi margin atas */
+        padding: 10px; /* Mengurangi padding */
+        margin-left: 10px;
+        margin-right: 20px;
+    }
+    .container-register h2 {
+        font-size: 20px; /* Mengurangi ukuran font */
+    }
+    .form-group label {
+        font-size: 12px; /* Mengurangi ukuran font label */
+    }
+    .form-group input {
+        font-size: 12px; /* Mengurangi ukuran font input */
+    }
+    .btn-primary {
+        font-size: 14px; /* Mengurangi ukuran font tombol */
+    }
+
+    .reset-password {
+        font-size: 12px; /* Mengurangi ukuran font tautan reset password */
+    }
+    .form-check-label {
+        padding: 10px; /* Mengurangi padding pada label */
+    }
+}
