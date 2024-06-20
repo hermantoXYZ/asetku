@@ -6,7 +6,53 @@
 </head>
 <body>
     <h1>THIS IS DASHBOAR USER</h1>
-
+    <ul>
+        {% for aset in aset_list %}
+        <li>
+            <h2>{{ aset.nama_aset }}</h2>
+            <p><strong>Kode Aset:</strong> {{ aset.kode_aset }}</p>
+            <p><strong>Kategori:</strong> {{ aset.kategori }}</p>
+            
+            <!-- Contoh menampilkan detail aset jika diinginkan -->
+            {% if aset.detail %}
+            <h3>Detail Aset</h3>
+            <p><strong>Merk:</strong> {{ aset.detail.merk }}</p>
+            <p><strong>Tipe:</strong> {{ aset.detail.tipe }}</p>
+            <!-- tambahkan lebih banyak bidang detail sesuai kebutuhan -->
+            {% endif %}
+            
+            <!-- Contoh menampilkan informasi pembelian -->
+            {% if aset.pembelian %}
+            <h3>Informasi Pembelian</h3>
+            <p><strong>Tanggal Pembelian:</strong> {{ aset.pembelian.tanggal_pembelian }}</p>
+            <p><strong>Toko/Distributor:</strong> {{ aset.pembelian.toko_distributor }}</p>
+            <!-- tambahkan lebih banyak bidang pembelian sesuai kebutuhan -->
+            {% endif %}
+            
+            <!-- Contoh menampilkan lampiran -->
+            {% if aset.lampiran %}
+            <h3>Lampiran</h3>
+            {% for lampiran in aset.lampiran.all %}
+            <a href="{{ lampiran.foto.url }}">{{ lampiran.foto.name }}</a><br>
+            {% endfor %}
+            <!-- tambahkan lebih banyak bidang lampiran sesuai kebutuhan -->
+            {% endif %}
+            
+            <!-- Tambahan informasi tambahan atau keterangan -->
+            {% if aset.keterangan_tambahan %}
+            <h3>Keterangan Tambahan</h3>
+            <p>{{ aset.keterangan_tambahan }}</p>
+            {% endif %}
+            
+            <!-- Informasi penyusutan jika ada -->
+            {% if aset.penyusutan %}
+            <h3>Informasi Penyusutan</h3>
+            <p><strong>Umur Ekonomis:</strong> {{ aset.penyusutan.umur_ekonomis }}</p>
+            <!-- tambahkan lebih banyak bidang penyusutan sesuai kebutuhan -->
+            {% endif %}
+        </li>
+        {% endfor %}
+    </ul>
     <a href="{% url 'logout' %}">Logout</a>
 
 </body>

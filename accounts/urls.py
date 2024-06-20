@@ -14,13 +14,33 @@ urlpatterns = [
     path('accounts/reset/password/done/', auth_views.PasswordResetDoneView.as_view(template_name='accounts/password_reset_done.html'), name='password_reset_done'),
     path('accounts/password/reset/confirm/<uidb64>/<token>/', auth_views.PasswordResetConfirmView.as_view(template_name='accounts/password_reset_confirm.html'), name='password_reset_confirm'),
     path('accounts/password/reset/complete/', auth_views.PasswordResetCompleteView.as_view(template_name='accounts/password_reset_complete.html'), name='password_reset_complete'),
+     #User
+    path('dashboard/user', viewsUser.user, name='dashboard_user'),
     #Admin
     path('dashboard/admin', viewsAdmin.admin, name='dashboard_admin'),
     #Pelanggan
     path('dashboard/staff', viewsStaff.staff, name='dashboard_staff'),
-    #User
-    path('dashboard/user', viewsUser.user, name='dashboard_user'),
+    path('dashboard/staff/assets', viewsStaff.create_aset, name='add_assets'),
+    path('dashboard/profile/', viewsStaff.dashboard_profile, name='profile'),
+    path('dashboard/profile/update', viewsStaff.update_profile, name='update_profile'),
+    path('dashboard/staff/assets-list', viewsStaff.list_aset, name='list_aset'),
 
+    path('edit_asset/<int:asset_id>/', viewsStaff.edit_asset, name='edit_asset'),
+    path('delete_asset/<int:asset_id>/', viewsStaff.delete_asset, name='delete_asset'),
+
+    path('dashboard/kategori/add/', viewsStaff.tambah_kategori, name='tambah_kategori'),
+    path('dashboard/kategori/', viewsStaff.list_kategori, name='list_kategori'),
+
+    path('dashboard/kategori/edit/<int:kategori_id>/', viewsStaff.edit_kategori, name='edit_kategori'),
+    path('delete_kategori/<int:kategori_id>/', viewsStaff.delete_kategori, name='delete_kategori'),
+
+    path('asset/<int:asset_id>/', viewsStaff.asset_detail, name='asset_detail'),
+
+    path('asset/scan/<int:asset_id>/', viewsStaff.asset_scan_detail, name='asset_scan_detail'),
+
+
+
+   
 
 
 ]

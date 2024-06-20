@@ -1,0 +1,183 @@
+{% extends 'dashboard/base.html' %}
+{% block title %}Profil @{{ user.username }}{% endblock %}
+{% block content %}
+
+
+
+
+
+<nav class="sidebar-nav">
+    <ul>
+        <li><a href="/"><i class="fas fa-home"></i> Dashboard</a></li>
+        <li><a href="/"><i class="fas fa-table"></i> Undanganku</a></li>
+        <li><a href="#"><i class="fas fa-credit-card"></i> Invoice</a></li>
+        <li><a href="#"><i class="fas fa-tools"></i> Tutorial</a></li>
+    </ul>
+    <h3>Account Pages</h3>
+    <ul>
+        <li><a href="{% url 'profile' %}"><i class="fas fa-user"></i> Profile</a></li>
+        <li><a href="{% url 'logout' %}"><i class="fas fa-sign-in-alt"></i> Sign Out</a></li>
+    </ul>
+</nav>
+</aside>
+
+
+
+<main class="main-content">
+    <header class="main-header">
+        <div class="breadcrumb">
+            <span>Pages / Profileku</span>
+        </div>
+        <div class="header-right">
+            <a href="/" class="btn-add"><i class="fas fa-plus"></i> Undanganku</a>
+            <a href="#" class="bar-icon"><i class="fas fa-bars sidebar-toggle"></i></a>
+        </div>
+    </header>
+    
+    <section class="main-section">
+        <div class="info-container">
+            <div class="info-card">
+                <div class="info-content">
+                    <p class="info-title">Undangan yang Dibuat</p>
+                    <h2>$53,000 <span class="info-change positive">+55%</span></h2>
+                </div>
+                <div class="info-icon">
+                    <i class="fas fa-wallet"></i>
+                </div>
+            </div>
+            <div class="info-card">
+                <div class="info-content">
+                    <p class="info-title">Tamu Undangan</p>
+                    <h2>2,300 <span class="info-change positive">+3%</span></h2>
+                </div>
+                <div class="info-icon">
+                    <i class="fas fa-globe"></i>
+                </div>
+            </div>
+            <div class="info-card">
+                <div class="info-content">
+                    <p class="info-title">Ucapan & Do'a</p>
+                    <h2>+3,020 <span class="info-change negative">-14%</span></h2>
+                </div>
+                <div class="info-icon">
+                    <i class="fas fa-users"></i>
+                </div>
+            </div>
+            <div class="info-card">
+                <div class="info-content">
+                    <p class="info-title">Klik Undangan saya</p>
+                    <h2>$173,000 <span class="info-change positive">+8%</span></h2>
+                </div>
+                <div class="info-icon">
+                    <i class="fas fa-shopping-cart"></i>
+                </div>
+            </div>
+        </div>
+    
+
+
+    <div class="profile-card">
+        <div class="profile-header">
+            <img class="profile-image" src="{{ user.image.url }}" alt="Esthera Jackson">
+            <div class="profile-details">
+                <h1>{{ user.first_name }} {{ user.last_name }}</h1>
+                <h2>{{user.date_joined}} </h2>
+                <p>{{user.email}}</p>
+            </div>
+        </div>
+        <!-- <div class="profile-nav">
+            <button>Overview</button>
+            <button>Teams</button>
+            <button>Projects</button>
+        </div> -->
+    </div>
+
+    <div class="form-group">
+        <form method="post" action="{% url 'update_profile' %}" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="input-group">
+                <label for="first_name">Nama Depan:</label>
+                <input type="text" id="first_name" name="first_name" value="{{ user.first_name }}" required>
+            </div>
+            <div class="input-group">
+                <label for="last_name">Nama Belakang:</label>
+                <input type="text" id="last_name" name="last_name" value="{{ user.last_name }}" required>
+            </div>
+            <div class="input-group">
+                <label for="profile_picture">Foto Profil:</label>
+                <input type="file" id="profile_picture" name="image">
+            </div>
+            <div class="input-group">
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" value="{{ user.email }}" required>
+            </div>
+            <div class="input-group">
+                <label for="phone_number">Nomor Telepon:</label>
+                <input type="text" id="phone_number" name="phone_number" value="{{ user.phone_number }}" required>
+            </div>
+            <div class="input-group">
+                <button type="submit">Simpan Perubahan</button>
+            </div>
+        </form>
+    </div>
+    
+
+<!-- 
+    
+    <div class="profile-content">
+        <div class="platform-settings">
+            <h2>Platform Settings</h2>
+            <div class="settings-option">
+               {{ user.username }}
+            </div>
+            <div class="settings-option">
+                <label>
+                    <input type="checkbox"> Monthly product changes
+                </label>
+            </div>
+        </div>
+        <div class="profile-information">
+            <h2>Profile Information</h2>
+            <p>Hi, I’m Esthera Jackson, Decisions: If you can’t decide, the answer is no. If two equally difficult paths, choose the one more painful in the short term (pain avoidance is creating an illusion of equality).</p>
+            <p><strong>Location:</strong> United States</p>
+            <p><strong>Social Media:</strong> 
+                <a href="#">Facebook</a> 
+                <a href="#">Instagram</a> 
+                <a href="#">Twitter</a>
+            </p>
+        </div>
+        <div class="conversations">
+            <h2>Conversations</h2>
+            <div class="conversation">
+                <img src="user1.jpg" alt="Sophie B.">
+                <p>Sophie B.<br>Hi! I need more information...</p>
+                <button>Reply</button>
+            </div>
+            <div class="conversation">
+                <img src="user2.jpg" alt="Sophie B.">
+                <p>Sophie B.<br>About files I can...</p>
+                <button>Reply</button>
+            </div>
+        </div> -->
+ 
+
+
+<!-- 
+
+    <main>
+        <h1>Profil</h1>
+        <div class="profile-container">
+            <div class="profile-info">
+                <p><strong>Nama Depan:</strong> {{ user.first_name }}</p>
+                <p><strong>Nama Belakang:</strong> {{ user.last_name }}</p>
+                <p><strong>Username:</strong> {{ user.username }}</p>
+                <p><strong>Email:</strong> {{ user.email }}</p>
+                <p><strong>Nomor Telepon:</strong> {{ user.phone_number }}</p>
+                <p><strong>Pelangan:</strong> {{ user.is_pelanggan }}</p>
+            </div>
+        </div>
+    </main> -->
+
+ {% endblock %}
+</body>
+</html>

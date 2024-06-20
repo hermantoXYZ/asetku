@@ -1,0 +1,159 @@
+{% extends 'dashboard/base.html' %}
+{% block title %}Add Aset{% endblock %}
+{% block content %}
+
+
+
+<nav class="sidebar-nav">
+    <ul>
+        <li class="active"><a href="{% url 'dashboard_staff' %}"><i class="fas fa-home"></i> Dashboard</a></li>
+        <!-- <li><a href="/"><i class="fas fa-table"></i> Undanganku</a></li> -->
+        <li><a href="{% url 'list_aset' %}"><i class="fas fa-credit-card"></i>Daftar Asset</a></li>
+        <li><a href="#"><i class="fas fa-tools"></i> Data</a></li>
+    </ul>
+    <h3>Account Pages</h3>
+    <ul>
+        <li><a href="{% url 'profile' %}"><i class="fas fa-user"></i> Profile</a></li>
+        <li><a href="{% url 'logout' %}"><i class="fas fa-sign-in-alt"></i> Sign Out</a></li>
+    </ul>
+</nav>
+</aside>
+
+
+
+
+<div class="main-content">
+    <header class="main-header">
+        <div class="breadcrumb">
+            <span>Pages / Add Assets</span>
+            <h2>Detail Assets</h2>
+        </div>
+        <div class="header-right">
+            <a href="{% url 'add_assets' %}" class="btn-add"><i class="fas fa-plus"></i> Tambahkan Assets</a>
+            <a href="#" class="bar-icon"><i class="fas fa-bars sidebar-toggle"></i></a>
+        </div>
+    </header>
+    
+    <div class="container-ku">
+    <div class="form-container">
+        <h2>Umum</h2>
+    <div class="form-section">
+        <div class="form-group">
+            <label>Nama Aset</label>
+            <p>{{ asset.nama_aset }}</p>
+        </div>
+        <div class="form-group">
+            <label>Kode Aset</label>
+            <p>{{ asset.kode_aset }}</p>
+        </div>
+        <div class="form-group">
+            <label>Kategori Aset</label>
+            <p> {% if asset.kategori %}
+                {{ asset.kategori.nama }}
+            {% else %}
+                Tidak ada
+            {% endif %}</p>
+        </div>
+    </div>
+
+    <h2>Detail Aset</h2>
+    <div class="form-section">
+        <div class="form-group">
+            <label>MerK Aset</label>
+            <p>{{ detail_aset.merk }}</p>
+        </div>
+        <div class="form-group">
+            <label>Tipe Aset</label>
+            <p>{{ detail_aset.tipe }}</p>
+        </div>
+        <div class="form-group">
+            <label>Produsen Aset</label>
+            <p> {{ detail_aset.produsen }}</p>
+        </div>
+        <div class="form-group">
+            <label>Kode Produksi Aset</label>
+            <p>{{ detail_aset.no_seri_kode_produksi }}</p>
+        </div>
+        <div class="form-group">
+            <label>Tahun Produksi Aset</label>
+            <p> {{ detail_aset.tahun_produksi }}</p>
+        </div>
+
+        <div class="form-group">
+            <label>Deskripsi Aset</label>
+            <p> {{ detail_aset.deskripsi }}</p>
+        </div>
+    </div>
+
+    <div class="form-section">
+        <h2>Detail Pembelian</h2>
+        <div class="form-row">
+            <div class="form-group">
+                <label>Tanggal Pembelian</label>
+                <p>{{ pembelian.tanggal_pembelian }}</p>
+            </div>
+            <div class="form-group">
+                <label>Toko Distributor</label>
+                <p>{{ pembelian.toko_distributor }}</p>
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group">
+                <label>No Invoice</label>
+                <p> {{ pembelian.no_invoice }}</p>
+            </div>
+            <div class="form-group">
+                <label>Jumlah Aset</label>
+                <p>{{ pembelian.jumlah }}</p>
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="form-group">
+                <label>Harga Satuan</label>
+                <p>  {{ pembelian.harga_satuan }}</p>
+            </div>
+            <div class="form-group">
+                <label>Harga Total</label>
+                <p> {{ pembelian.harga_total }}</p>
+            </div>
+        </div>
+    </div>
+
+
+
+    
+    <h2>Detail Aset</h2>
+    <div class="form-section">
+        <div class="form-group">
+            <label>Keterangan Aset
+            </label>
+            <p>{{ lampiran.keterangan }}</p>
+        </div>
+        <!-- <div class="form-group">
+            <label>Kode Aset</label>
+            <p>{{ detail_aset.tipe }}</p>
+        </div> -->
+        
+    </div>
+
+
+      
+    <h2>Detail Aset</h2>
+    <div class="form-section">
+        <div class="form-group">
+            <label>Nama Penanggung Jawab</label>
+            <p>{{ penanggung_jawab.nama }}</p>
+        </div>
+        <div class="form-group">
+            <label>Jabatan</label>
+            <p> {{ penanggung_jawab.jabatan }}</p>
+        </div>
+        
+    </div>
+
+
+    <div class="footer">
+        &copy; 2023 - Asset Management System
+    </div>
+    {% endblock %}

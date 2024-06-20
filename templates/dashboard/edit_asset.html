@@ -1,0 +1,185 @@
+{% extends 'dashboard/base.html' %}
+{% block title %}Add Aset{% endblock %}
+{% block content %}
+
+
+
+<nav class="sidebar-nav">
+    <ul>
+        <li class="active"><a href="{% url 'dashboard_staff' %}"><i class="fas fa-home"></i> Dashboard</a></li>
+        <!-- <li><a href="/"><i class="fas fa-table"></i> Undanganku</a></li> -->
+        <li><a href="{% url 'list_aset' %}"><i class="fas fa-credit-card"></i>Daftar Asset</a></li>
+        <li><a href="#"><i class="fas fa-tools"></i> Data</a></li>
+    </ul>
+    <h3>Account Pages</h3>
+    <ul>
+        <li><a href="{% url 'profile' %}"><i class="fas fa-user"></i> Profile</a></li>
+        <li><a href="{% url 'logout' %}"><i class="fas fa-sign-in-alt"></i> Sign Out</a></li>
+    </ul>
+</nav>
+</aside>
+
+
+
+
+<div class="main-content">
+    <header class="main-header">
+        <div class="breadcrumb">
+            <span>Pages / Add Assets</span>
+            <h2>Assets</h2>
+        </div>
+        <div class="header-right">
+            <a href="{% url 'add_assets' %}" class="btn-add"><i class="fas fa-plus"></i> Tambahkan Assets</a>
+            <a href="#" class="bar-icon"><i class="fas fa-bars sidebar-toggle"></i></a>
+        </div>
+    </header>
+    
+    <div class="container-ku">
+    <div class="form-container">
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            
+            <div class="form-section">
+                <h2>Umum</h2>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="{{ aset_form.nama_aset.id_for_label }}">Nama Aset</label>
+                        {{ aset_form.nama_aset }}
+                    </div>
+                    <div class="form-group">
+                        <label for="{{ aset_form.kode_aset.id_for_label }}">Kode Aset</label>
+                        {{ aset_form.kode_aset }}
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="{{ aset_form.kategori.id_for_label }}">Kategori</label>
+                        {{ aset_form.kategori }}
+                    </div>
+                </div>
+            </div>
+            
+            <div class="form-section">
+                <h2>Detail Aset</h2>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="{{ detail_form.merk.id_for_label }}">Merk</label>
+                        {{ detail_form.merk }}
+                    </div>
+                    <div class="form-group">
+                        <label for="{{ detail_form.tipe.id_for_label }}">Tipe</label>
+                        {{ detail_form.tipe }}
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="{{ detail_form.produsen.id_for_label }}">Produsen</label>
+                        {{ detail_form.produsen }}
+                    </div>
+                    <div class="form-group">
+                        <label for="{{ detail_form.no_seri_kode_produksi.id_for_label }}">No Seri/Kode Produksi</label>
+                        {{ detail_form.no_seri_kode_produksi }}
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="{{ detail_form.tahun_produksi.id_for_label }}">Tahun Produksi</label>
+                        {{ detail_form.tahun_produksi }}
+                    </div>
+                    <div class="form-group">
+                        <label for="{{ detail_form.deskripsi.id_for_label }}">Deskripsi</label>
+                        {{ detail_form.deskripsi }}
+                    </div>
+                </div>
+            </div>
+            
+            <div class="form-section">
+                <h2>Pembelian</h2>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="{{ pembelian_form.tanggal_pembelian.id_for_label }}">Tanggal Pembelian</label>
+                        {{ pembelian_form.tanggal_pembelian }}
+                    </div>
+                    <div class="form-group">
+                        <label for="{{ pembelian_form.toko_distributor.id_for_label }}">Toko/Distributor</label>
+                        {{ pembelian_form.toko_distributor }}
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="{{ pembelian_form.no_invoice.id_for_label }}">No Invoice</label>
+                        {{ pembelian_form.no_invoice }}
+                    </div>
+                    <div class="form-group">
+                        <label for="{{ pembelian_form.jumlah.id_for_label }}">Jumlah</label>
+                        {{ pembelian_form.jumlah }}
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="{{ pembelian_form.harga_satuan.id_for_label }}">Harga Satuan</label>
+                        {{ pembelian_form.harga_satuan }}
+                    </div>
+                    <div class="form-group">
+                        <label for="{{ pembelian_form.harga_total.id_for_label }}">Harga Total</label>
+                        {{ pembelian_form.harga_total }}
+                        {% if pembelian_form.harga_total_text.value %}
+                        <p>Terbilang: {{ pembelian_form.harga_total_text.value }} rupiah..</p>
+                        {% endif %}
+                    </div>
+                  
+                    
+                </div>
+            </div>
+            
+            <div class="form-section">
+                <h2>Lampiran</h2>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="{{ lampiran_form.foto.id_for_label }}">Foto</label>
+                        {{ lampiran_form.foto }}
+                    </div>
+                    <div class="form-group">
+                        <label for="{{ lampiran_form.keterangan.id_for_label }}">Keterangan</label>
+                        {{ lampiran_form.keterangan }}
+                    </div>
+                </div>
+            </div>
+            
+         
+            <div class="form-section">
+                <h2>Penanggung Jawab</h2>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="{{ Penanggung_jawab_form.nama.id_for_label }}">Nama Penanggung Jawab</label>
+                        {{ penanggung_jawab_form.nama }}
+                    </div>
+                    <div class="form-group">
+                        <label for="{{ Penanggung_jawab_form.jabatan.id_for_label }}">Jabatan</label>
+                        {{ penanggung_jawab_form.jabatan }}
+                    </div>
+                </div>
+            </div>
+            <button type="submit">Simpan Data</button>
+    </div>
+</div>
+{% block extra_js %}
+<script>
+    // Fungsi untuk menghitung harga total dan mengisi otomatis
+    function updateHargaTotal() {
+        var hargaSatuan = parseFloat(document.getElementById('id_harga_satuan').value);
+        var jumlah = parseInt(document.getElementById('id_jumlah').value);
+        
+        if (!isNaN(hargaSatuan) && !isNaN(jumlah)) {
+            var hargaTotal = hargaSatuan * jumlah;
+            document.getElementById('id_harga_total').value = hargaTotal.toFixed(2);
+        }
+    }
+
+    // Panggil fungsi update saat nilai harga satuan atau jumlah berubah
+    document.getElementById('id_harga_satuan').addEventListener('input', updateHargaTotal);
+    document.getElementById('id_jumlah').addEventListener('input', updateHargaTotal);
+</script>
+
+{% endblock %}
+{% endblock %}

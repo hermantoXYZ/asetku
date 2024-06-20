@@ -1,0 +1,48 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}{% endblock %}</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'dashboard/styles.css' %}?v={{ STATIC_VERSION }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+</head>
+<body>
+<div class="dashboard">
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <!-- <img src="/media/logo/invite-black.png" class="logo-dashboard" alt="Logo"> -->
+                <a href="#" class="close-btn" id="close-btn"><i class="fas fa-times"></i></a>
+            </div>
+{%block content%}
+
+
+{%endblock%}
+<script>
+   document.addEventListener('DOMContentLoaded', function() {
+    var sidebar = document.querySelector('.sidebar');
+    var barIcon = document.querySelector('.sidebar-toggle');
+    var closeBtn = document.querySelector('.close-btn');
+
+    barIcon.addEventListener('click', function(e) {
+        e.preventDefault();
+        sidebar.classList.toggle('show');
+    });
+
+    closeBtn.addEventListener('click', function(e) {
+        e.preventDefault();
+        sidebar.classList.remove('show');
+    });
+
+    // Close the sidebar if the user clicks outside of it
+    window.addEventListener('click', function(event) {
+        if (!sidebar.contains(event.target) && event.target !== barIcon) {
+            sidebar.classList.remove('show');
+        }
+    });
+});
+</script>
+</body>
+</html>

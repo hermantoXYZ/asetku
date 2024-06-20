@@ -1,0 +1,92 @@
+{% extends 'dashboard/base.html' %}
+{% block title %}List Aset{% endblock %}
+{% block content %}
+<nav class="sidebar-nav">
+    <ul>
+        <li><a href="{% url 'dashboard_staff' %}"><i class="fas fa-home"></i> Dashboard</a></li>
+        <li class="active"><a href="{% url 'list_aset' %}"><i class="fas fa-credit-card"></i>Asset</a></li>
+        <li><a href="{% url 'list_kategori' %}"><i class="fas fa-tools"></i> Kategori</a></li>
+        <li><a href="#"><i class="fas fa-tools"></i> Data</a></li>
+    </ul>
+    <h3>Account Pages</h3>
+    <ul>
+        <li><a href="{% url 'profile' %}"><i class="fas fa-user"></i> Profile</a></li>
+        <li><a href="{% url 'logout' %}"><i class="fas fa-sign-in-alt"></i> Sign Out</a></li>
+    </ul>
+</nav>
+</aside>
+
+<div class="main-content">
+    <header class="main-header">
+        <div class="breadcrumb">
+            <span>Pages / List Assets</span>
+            <h2>Assets</h2>
+        </div>
+        <div class="header-right">
+            <a href="{% url 'add_assets' %}" class="btn-add"><i class="fas fa-plus"></i> Tambahkan Assets</a>
+            <a href="#" class="bar-icon"><i class="fas fa-bars sidebar-toggle"></i></a>
+        </div>
+    </header>
+
+    <div class="form-container">
+        <table>
+            <thead>
+                <tr>
+                    <th>Nama Aset</th>
+                    <th>Kode Aset</th>
+                    <th>Kategori</th>
+                    <th>Actions</th>
+                    <th>QR Code</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for asset in assets %}
+                    <tr>
+                        <td data-label="Nama Aset">
+                            {{ asset.nama_aset }}
+                            <a href="{% url 'asset_detail' asset.id %}" class="view-icon">
+                                <i class="fa fa-eye"></i>
+                            </a>
+                        </td>
+                        <td data-label="Kode Aset">{{ asset.kode_aset }}</td>
+                        <td data-label="Kategori">{{ asset.kategori }}</td>
+                        <td data-label="Actions">
+                            <a href="{% url 'edit_asset' asset.id %}" class="btn-edit"><i class="fas fa-pencil-alt"></i> Edit</a>
+                            <a href="{% url 'delete_asset' asset.id %}" class="btn-delete"
+                               onclick="return confirm('Apakah Anda yakin ingin menghapus aset ini?');">
+                               <i class="fas fa-trash"></i> Delete
+                            </a>
+                        </td>
+                        <td data-label="QR Code">
+                            <a href="#qrCodeModal" class="btn-view" onclick="showQRCode('{{ asset.qr_code_img }}')">
+                                <img src="data:image/png;base64,{{ asset.qr_code_img }}" alt="QR Code" />
+                            </a>
+                            <img src="data:image/png;base64,{{ asset.qr_code_img }}" alt="QR Code" style="display: none;" />
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <!-- QR Code Modal -->
+        <div id="qrCodeModal" class="modal">
+            <div class="modal-content">
+                <span class="close" onclick="closeModal()">&times;</span>
+                <img id="modalImage" src="" alt="QR Code">
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function showQRCode(src) {
+        document.getElementById('modalImage').src = 'data:image/png;base64,' + src;
+        document.getElementById('qrCodeModal').style.display = 'block';
+    }
+
+    function closeModal() {
+        document.getElementById('qrCodeModal').style.display = 'none';
+    }
+</script>
+
+{% endblock %}

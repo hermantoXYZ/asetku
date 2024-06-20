@@ -1,13 +1,159 @@
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    <h1>THIS IS DASHBOAR STAFF</h1>
+<!-- dashboard/pelanggan.html -->
 
-    <a href="{% url 'logout' %}">Logout</a>
+{% extends 'dashboard/base.html' %}
+{% block title %}Dashboard Pelanggan{% endblock %}
+{% block content %}
+            <nav class="sidebar-nav">
+                <ul>
+                    <li class="active"><a href="{% url 'dashboard_staff' %}"><i class="fas fa-home"></i> Dashboard</a></li>
+                    <!-- <li><a href="/"><i class="fas fa-table"></i> Undanganku</a></li> -->
+                    <li><a href="{% url 'list_aset' %}"><i class="fas fa-credit-card"></i>Asset</a></li>
+                    <li><a href="{%  url 'list_kategori' %}"><i class="fas fa-tools"></i> Kategori</a></li>
+                    <li><a href="#"><i class="fas fa-tools"></i> Data</a></li>
+                </ul>
+                <h3>Account Pages</h3>
+                <ul>
+                    <li><a href="{% url 'profile' %}"><i class="fas fa-user"></i> Profile</a></li>
+                    <li><a href="{% url 'logout' %}"><i class="fas fa-sign-in-alt"></i> Sign Out</a></li>
+                </ul>
+            </nav>
+        </aside>
 
+
+
+        <main class="main-content">
+            <header class="main-header">
+                <div class="breadcrumb">
+                    <span>Pages / Dashboard</span>
+                    <h2>Dashboard</h2>
+                </div>
+                <div class="header-right">
+                    <a href="{% url 'add_assets' %}" class="btn-add"><i class="fas fa-plus"></i> Tambahkan Assets</a>
+                    <a href="#" class="bar-icon"><i class="fas fa-bars sidebar-toggle"></i></a>
+                </div>
+            </header>
+            <section class="main-section">
+                <div class="info-container">
+                    <div class="info-card">
+                        <div class="info-content">
+                            <p class="info-title">Jumlah Aset</p>
+                            <h2><span class="info-change positive">+{{ total_assets }}</span></h2>
+                        </div>
+                        <div class="info-icon">
+                            <i class="fas fa-wallet"></i>
+                        </div>
+                    </div>
+                    <div class="info-card">
+                        <div class="info-content">
+                            <p class="info-title">Jumlah Kategori</p>
+                            <h2><span class="info-change positive">+{{ total_kategori }}</span></h2>
+                        </div>
+                        <div class="info-icon">
+                            <i class="fas fa-globe"></i>
+                        </div>
+                    </div>
+
+                    <div class="info-card">
+                        <div class="info-content">
+                            <p class="info-title">Nilai Aset</p>
+                            <h2><span class="info-change positive">Rp {{ total_harga_total }}</span></h2>
+                        </div>
+                        <div class="info-icon">
+                            <i class="fas fa-globe"></i>
+                        </div>
+                    </div>
+                    
+                 
+                </div>
+
+                <div class="container">
+                    <div class="card">
+                        <div class="card-content">
+                            <p class="tag">Information us</p>
+                            <h2>Get started</h2>
+                            <p>Wealth creation is a revolutionary recent positive-sum game. It is all about who takes the opportunity first.</p>
+                            <a href="#" class="read-more">Read more →</a>
+                        </div>
+                        <div class="card-logo">
+                            <img src="/" alt="chakra">
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-content">
+                            <h2>Work with the rockets</h2>
+                            <p>Wealth creation is a revolutionary recent positive-sum game. It is all about who takes the opportunity first.</p>
+                            <a href="#" class="read-more">Read more →</a>
+                        </div>
+                        <div class="card-image">
+                            <img src="/" alt="Work with the rockets">
+                        </div>
+                    </div>
+                </div>
+
+                
+    <div class="form-container">
+        <table>
+            <thead>
+                <tr>
+                    <th>Nama Aset</th>
+                    <th>Kode Aset</th>
+                    <th>Kategori</th>
+                    <th>Actions</th>
+                    <th>QR Code</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for asset in assets %}
+                    <tr>
+                        <td data-label="Nama Aset">
+                            {{ asset.nama_aset }}
+                            <a href="{% url 'asset_detail' asset.id %}" class="view-icon">
+                                <i class="fa fa-eye"></i>
+                            </a>
+                        </td>
+                        <td data-label="Kode Aset">{{ asset.kode_aset }}</td>
+                        <td data-label="Kategori">{{ asset.kategori }}</td>
+                        <td data-label="Actions">
+                            <a href="{% url 'edit_asset' asset.id %}" class="btn-edit"><i class="fas fa-pencil-alt"></i> Edit</a>
+                            <a href="{% url 'delete_asset' asset.id %}" class="btn-delete"
+                               onclick="return confirm('Apakah Anda yakin ingin menghapus aset ini?');">
+                               <i class="fas fa-trash"></i> Delete
+                            </a>
+                        </td>
+                        <td data-label="QR Code">
+                            <a href="#qrCodeModal" class="btn-view" onclick="showQRCode('{{ asset.qr_code_img }}')">
+                                <img src="data:image/png;base64,{{ asset.qr_code_img }}" alt="QR Code" />
+                            </a>
+                            <img src="data:image/png;base64,{{ asset.qr_code_img }}" alt="QR Code" style="display: none;" />
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <!-- QR Code Modal -->
+        <div id="qrCodeModal" class="modal">
+            <div class="modal-content">
+                <span class="close" onclick="closeModal()">&times;</span>
+                <img id="modalImage" src="" alt="QR Code">
+            </div>
+        </div>
+    </div>
+</div>
+
+            </section>
+        </main>
+    </div>
+    <script>
+        function showQRCode(src) {
+            document.getElementById('modalImage').src = 'data:image/png;base64,' + src;
+            document.getElementById('qrCodeModal').style.display = 'block';
+        }
+    
+        function closeModal() {
+            document.getElementById('qrCodeModal').style.display = 'none';
+        }
+    </script>
+{% endblock %}
 </body>
 </html>
