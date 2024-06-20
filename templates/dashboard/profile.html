@@ -8,10 +8,11 @@
 
 <nav class="sidebar-nav">
     <ul>
-        <li><a href="/"><i class="fas fa-home"></i> Dashboard</a></li>
-        <li><a href="/"><i class="fas fa-table"></i> Undanganku</a></li>
-        <li><a href="#"><i class="fas fa-credit-card"></i> Invoice</a></li>
-        <li><a href="#"><i class="fas fa-tools"></i> Tutorial</a></li>
+        <li class="active"><a href="{% url 'dashboard_staff' %}"><i class="fas fa-home"></i> Dashboard</a></li>
+        <!-- <li><a href="/"><i class="fas fa-table"></i> Undanganku</a></li> -->
+        <li><a href="{% url 'list_aset' %}"><i class="fas fa-credit-card"></i>Asset</a></li>
+        <li><a href="{%  url 'list_kategori' %}"><i class="fas fa-tools"></i> Kategori</a></li>
+    
     </ul>
     <h3>Account Pages</h3>
     <ul>
@@ -26,53 +27,17 @@
 <main class="main-content">
     <header class="main-header">
         <div class="breadcrumb">
-            <span>Pages / Profileku</span>
+            <span>Pages / Dashboard</span>
+            <h2>Dashboard</h2>
         </div>
         <div class="header-right">
-            <a href="/" class="btn-add"><i class="fas fa-plus"></i> Undanganku</a>
+            <a href="{% url 'add_assets' %}" class="btn-add"><i class="fas fa-plus"></i> Tambahkan Assets</a>
             <a href="#" class="bar-icon"><i class="fas fa-bars sidebar-toggle"></i></a>
         </div>
     </header>
     
     <section class="main-section">
-        <div class="info-container">
-            <div class="info-card">
-                <div class="info-content">
-                    <p class="info-title">Undangan yang Dibuat</p>
-                    <h2>$53,000 <span class="info-change positive">+55%</span></h2>
-                </div>
-                <div class="info-icon">
-                    <i class="fas fa-wallet"></i>
-                </div>
-            </div>
-            <div class="info-card">
-                <div class="info-content">
-                    <p class="info-title">Tamu Undangan</p>
-                    <h2>2,300 <span class="info-change positive">+3%</span></h2>
-                </div>
-                <div class="info-icon">
-                    <i class="fas fa-globe"></i>
-                </div>
-            </div>
-            <div class="info-card">
-                <div class="info-content">
-                    <p class="info-title">Ucapan & Do'a</p>
-                    <h2>+3,020 <span class="info-change negative">-14%</span></h2>
-                </div>
-                <div class="info-icon">
-                    <i class="fas fa-users"></i>
-                </div>
-            </div>
-            <div class="info-card">
-                <div class="info-content">
-                    <p class="info-title">Klik Undangan saya</p>
-                    <h2>$173,000 <span class="info-change positive">+8%</span></h2>
-                </div>
-                <div class="info-icon">
-                    <i class="fas fa-shopping-cart"></i>
-                </div>
-            </div>
-        </div>
+    
     
 
 
