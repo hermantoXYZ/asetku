@@ -7,6 +7,9 @@ from .views import CustomPasswordResetView
 
 urlpatterns = [
     path('login', views.login_view, name='login'),
+    path('login/', views.login_view, name='login'),
+    path('accounts/login/', views.login_view, name='login'),
+    path('', views.login_view, name='login'), 
     path('register', views.signup_view, name='register'),
     path('logout', views.logout_view, name='logout'),
     #Reset Password
@@ -29,10 +32,16 @@ urlpatterns = [
     path('delete_asset/<int:asset_id>/', viewsStaff.delete_asset, name='delete_asset'),
 
     path('dashboard/kategori/add/', viewsStaff.tambah_kategori, name='tambah_kategori'),
+    path('dashboard/posisi/add', viewsStaff.tambah_posisi, name='tambah_posisi'),
     path('dashboard/kategori/', viewsStaff.list_kategori, name='list_kategori'),
+    path('dashboard/posisi/', viewsStaff.list_posisi, name='list_posisi'),
 
     path('dashboard/kategori/edit/<int:kategori_id>/', viewsStaff.edit_kategori, name='edit_kategori'),
+    path('dashboard/posisi/edit/<int:posisi_id>/', viewsStaff.edit_lokasi, name='edit_lokasi'),
+
+
     path('delete_kategori/<int:kategori_id>/', viewsStaff.delete_kategori, name='delete_kategori'),
+    path('delete_posisi/<int:posisi_id>/', viewsStaff.delete_posisi, name='delete_lokasi'),
 
     path('asset/<int:asset_id>/', viewsStaff.asset_detail, name='asset_detail'),
 

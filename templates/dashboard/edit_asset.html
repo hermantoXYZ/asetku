@@ -3,13 +3,13 @@
 {% block content %}
 
 
-
 <nav class="sidebar-nav">
     <ul>
-        <li class="active"><a href="{% url 'dashboard_staff' %}"><i class="fas fa-home"></i> Dashboard</a></li>
+        <li><a href="{% url 'dashboard_staff' %}"><i class="fas fa-home"></i> Dashboard</a></li>
         <!-- <li><a href="/"><i class="fas fa-table"></i> Undanganku</a></li> -->
-        <li><a href="{% url 'list_aset' %}"><i class="fas fa-credit-card"></i>Daftar Asset</a></li>
-        <li><a href="#"><i class="fas fa-tools"></i> Data</a></li>
+        <li class="active"><a href="{% url 'list_aset' %}"><i class="fas fa-credit-card"></i>Asset</a></li>
+        <li><a href="{%  url 'list_kategori' %}"><i class="fas fa-tools"></i> Kategori</a></li>
+        <li><a href="{% url 'list_posisi' %}"><i class="fas fa-map"></i> Lokasi</a></li>
     </ul>
     <h3>Account Pages</h3>
     <ul>
@@ -51,10 +51,19 @@
                         {{ aset_form.kode_aset }}
                     </div>
                 </div>
+             
                 <div class="form-row">
                     <div class="form-group">
                         <label for="{{ aset_form.kategori.id_for_label }}">Kategori</label>
                         {{ aset_form.kategori }}
+                    </div>
+                    <div class="form-group">
+                        <label for="{{ aset_form.kondisi_aset.id_for_label }}">Kondisi</label>
+                        {{ aset_form.kondisi_aset }}
+                    </div>
+                    <div class="form-group">
+                        <label for="{{ aset_form.posisi_aset.id_for_label }}">Lokasi</label>
+                        {{ aset_form.posisi_aset }}
                     </div>
                 </div>
             </div>
@@ -97,8 +106,8 @@
                 <h2>Pembelian</h2>
                 <div class="form-row">
                     <div class="form-group">
-                        <label for="{{ pembelian_form.tanggal_pembelian.id_for_label }}">Tanggal Pembelian</label>
-                        {{ pembelian_form.tanggal_pembelian }}
+                        <label for="{{ pembelian_form.tanggal_kontrak.id_for_label }}">Tanggal Kontrak</label>
+                        {{ pembelian_form.tanggal_kontrak }}
                     </div>
                     <div class="form-group">
                         <label for="{{ pembelian_form.toko_distributor.id_for_label }}">Toko/Distributor</label>
@@ -107,12 +116,12 @@
                 </div>
                 <div class="form-row">
                     <div class="form-group">
-                        <label for="{{ pembelian_form.no_invoice.id_for_label }}">No Invoice</label>
-                        {{ pembelian_form.no_invoice }}
+                        <label for="{{ pembelian_form.no_kontrak.id_for_label }}">No Kontrak</label>
+                        {{ pembelian_form.no_kontrak }}
                     </div>
                     <div class="form-group">
-                        <label for="{{ pembelian_form.jumlah.id_for_label }}">Jumlah</label>
-                        {{ pembelian_form.jumlah }}
+                        <label for="{{ pembelian_form.unit.id_for_label }}">Unit</label>
+                        {{ pembelian_form.unit }}
                     </div>
                 </div>
                 <div class="form-row">
@@ -168,17 +177,17 @@
     // Fungsi untuk menghitung harga total dan mengisi otomatis
     function updateHargaTotal() {
         var hargaSatuan = parseFloat(document.getElementById('id_harga_satuan').value);
-        var jumlah = parseInt(document.getElementById('id_jumlah').value);
+        var unit = parseInt(document.getElementById('id_unit').value);
         
-        if (!isNaN(hargaSatuan) && !isNaN(jumlah)) {
-            var hargaTotal = hargaSatuan * jumlah;
+        if (!isNaN(hargaSatuan) && !isNaN(unit)) {
+            var hargaTotal = hargaSatuan * unit;
             document.getElementById('id_harga_total').value = hargaTotal.toFixed(2);
         }
     }
 
-    // Panggil fungsi update saat nilai harga satuan atau jumlah berubah
+    // Panggil fungsi update saat nilai harga satuan atau unit berubah
     document.getElementById('id_harga_satuan').addEventListener('input', updateHargaTotal);
-    document.getElementById('id_jumlah').addEventListener('input', updateHargaTotal);
+    document.getElementById('id_unit').addEventListener('input', updateHargaTotal);
 </script>
 
 {% endblock %}

@@ -3,13 +3,12 @@
 {% block content %}
 
 
-
 <nav class="sidebar-nav">
     <ul>
-        <li"><a href="{% url 'dashboard_staff' %}"><i class="fas fa-home"></i> Dashboard</a></li>
+        <li><a href="{% url 'dashboard_staff' %}"><i class="fas fa-home"></i> Dashboard</a></li>
         <!-- <li><a href="/"><i class="fas fa-table"></i> Undanganku</a></li> -->
-        <li><a href="{% url 'list_aset' %}"><i class="fas fa-credit-card"></i>Asset</a></li>
-        <li class="active"><a href="{%  url 'list_kategori' %}"><i class="fas fa-tools"></i> Kategori</a></li>
+        <li class="active"><a href="{% url 'list_aset' %}"><i class="fas fa-credit-card"></i>Asset</a></li>
+        <li><a href="{%  url 'list_kategori' %}"><i class="fas fa-tools"></i> Kategori</a></li>
         <li><a href="{% url 'list_posisi' %}"><i class="fas fa-map"></i> Lokasi</a></li>
     </ul>
     <h3>Account Pages</h3>
@@ -26,8 +25,8 @@
 <div class="main-content">
     <header class="main-header">
         <div class="breadcrumb">
-            <span>Pages / List Kategori</span>
-            <h2>Kategori</h2>
+            <span>Pages / Add Assets</span>
+            <h2>Assets</h2>
         </div>
         <div class="header-right">
             <a href="{% url 'add_assets' %}" class="btn-add"><i class="fas fa-plus"></i> Tambahkan Assets</a>
@@ -40,7 +39,7 @@
             {% csrf_token %}
             <div class="custom-form-group">
                 {{ form.as_p }}
-                <button type="submit" class="custom-btn-submit">Tambah Kategori</button>
+                <button type="submit" class="custom-btn-submit">Edit Lokasi</button>
             </div>
         </form>
     </div>

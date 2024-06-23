@@ -1,8 +1,8 @@
 from django.contrib.auth.decorators import user_passes_test
 from django.shortcuts import get_object_or_404, redirect, render
-from . forms import AsetBaruForm, DetailAsetForm, PembelianForm, LampiranForm, ProfileUpdateForm, KategoriForm, PenanggungJawabForm
+from . forms import AsetBaruForm, DetailAsetForm, PembelianForm, LampiranForm, ProfileUpdateForm, KategoriForm, PenanggungJawabForm, PosisiAsetForm
 from django.contrib.auth.decorators import login_required
-from .models import AsetBaru, DetailAset, Pembelian, Lampiran, Kategori, PenanggungJawab
+from .models import AsetBaru, DetailAset, Pembelian, Lampiran, Kategori, PenanggungJawab, PosisiAsset
 import qrcode
 from django.core.files.base import ContentFile
 from io import BytesIO 
@@ -290,12 +290,41 @@ def tambah_kategori(request):
 
 @login_required
 @user_passes_test(is_staff)
+def tambah_posisi(request):
+    if request.method == 'POST':
+        form = PosisiAsetForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('list_posisi') 
+        
+    else:
+        form = PosisiAsetForm()
+    
+    context = {
+        'form': form,
+    }
+
+    return render(request, 'dashboard/tambah_posisi.html', context)
+
+
+
+@login_required
+@user_passes_test(is_staff)
 def list_kategori(request):
     kategoris = Kategori.objects.all().order_by('-id')
     context = {
         'kategoris': kategoris,
     }
     return render(request, 'dashboard/list_kategori.html', context)
+
+@login_required
+@user_passes_test(is_staff)
+def list_posisi(request):
+    posisis = PosisiAsset.objects.all().order_by('-id')
+    context = {
+        'posisis': posisis,
+    }
+    return render(request, 'dashboard/list_posisi.html', context)
 
 @login_required
 @user_passes_test(is_staff)
@@ -314,6 +343,31 @@ def edit_kategori(request, kategori_id):
         'form': form,
     }
     return render(request, 'dashboard/edit_kategori.html', context)
+
+
+@login_required
+@user_passes_test(is_staff)
+def edit_lokasi (request, posisi_id):
+    posisi = get_object_or_404(PosisiAsset, id=posisi_id)
+    
+    if request.method == 'POST':
+        form = PosisiAsetForm(request.POST, instance=posisi)
+        if form.is_valid():
+            form.save()
+            return redirect('list_posisi')  # Ganti dengan nama URL untuk daftar kategori setelah edit
+    else:
+        form = PosisiAsetForm(instance=posisi)
+    
+    context = {
+        'form': form,
+    }
+    return render(request, 'dashboard/edit_posisi.html', context)
+
+
+
+
+
+
 @login_required
 @user_passes_test(lambda u: u.is_staff)
 def delete_kategori(request, kategori_id):
@@ -325,6 +379,22 @@ def delete_kategori(request, kategori_id):
     
     # Redirect jika aksi bukan metode POST (opsional)
     return redirect('list_kategori')
+
+
+
+@login_required
+@user_passes_test(lambda u: u.is_staff)
+def delete_posisi(request, posisi_id):
+    posisi = get_object_or_404(PosisiAsset, id=posisi_id)
+    
+    if request.method == 'POST':
+        posisi.delete()
+        return redirect('list_posisi')
+    
+    # Redirect jika aksi bukan metode POST (opsional)
+    return redirect('list_posisi')
+
+
 
 @login_required
 @user_passes_test(is_staff)

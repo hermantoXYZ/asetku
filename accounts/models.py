@@ -20,13 +20,25 @@ class Kategori(models.Model):
     def __str__(self):
         return self.nama
     
+class PosisiAsset(models.Model):
+    lokasi = models.CharField(max_length=100)
 
+    def __str__(self):
+        return self.lokasi
+    
+KONDISI_CHOICES = (
+    ('Baik', 'Baik'),
+    ('Rusak', 'Rusak'),
+    ('Rusak Berat', 'Rusak Berat'),
+)
 
 class AsetBaru(models.Model):
     nama_aset = models.CharField(max_length=255)
     kode_aset = models.CharField(max_length=50, blank=True, null=True)
     kategori = models.ForeignKey(Kategori, on_delete=models.SET_NULL, null=True, blank=True)
     qr_code = models.ImageField(upload_to='qr_codes', blank=True, null=True)
+    kondisi_aset = models.CharField(max_length=12, choices=KONDISI_CHOICES, default='baik')
+    posisi_aset = models.ForeignKey(PosisiAsset, on_delete=models.SET_NULL, null=True, blank=True)
 
     def __str__(self):
         return self.nama_aset
@@ -66,16 +78,16 @@ class DetailAset(models.Model):
     
 class Pembelian(models.Model):
     aset = models.ForeignKey(AsetBaru, on_delete=models.CASCADE, related_name='pembelian')
-    tanggal_pembelian = models.DateField()
+    tanggal_kontrak = models.DateField()
     toko_distributor = models.CharField(max_length=255)
-    no_invoice = models.CharField(max_length=50)
-    jumlah = models.PositiveIntegerField()
+    no_kontrak = models.CharField(max_length=50)
+    unit = models.PositiveIntegerField()
     harga_satuan = models.DecimalField(max_digits=12, decimal_places=1)
     harga_total = models.DecimalField(max_digits=15, decimal_places=1)
 
     def save(self, *args, **kwargs):
         # Hitung harga_total berdasarkan harga_satuan dan jumlah
-        self.harga_total = self.harga_satuan * self.jumlah
+        self.harga_total = self.harga_satuan * self.unit
         super().save(*args, **kwargs)
     def __str__(self):
         return f"Pembelian {self.aset.nama_aset}"

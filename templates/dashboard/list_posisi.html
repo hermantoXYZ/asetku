@@ -2,15 +2,13 @@
 {% block title %}Add Aset{% endblock %}
 {% block content %}
 
-
-
 <nav class="sidebar-nav">
     <ul>
         <li><a href="{% url 'dashboard_staff' %}"><i class="fas fa-home"></i> Dashboard</a></li>
         <!-- <li><a href="/"><i class="fas fa-table"></i> Undanganku</a></li> -->
         <li><a href="{% url 'list_aset' %}"><i class="fas fa-credit-card"></i>Asset</a></li>
-        <li class="active"><a href="{%  url 'list_kategori' %}"><i class="fas fa-tools"></i> Kategori</a></li>
-        <li><a href="{% url 'list_posisi' %}"><i class="fas fa-map"></i> Lokasi</a></li>
+        <li><a href="{%  url 'list_kategori' %}"><i class="fas fa-tools"></i> Kategori</a></li>
+        <li class="active"><a href="{% url 'list_posisi' %}"><i class="fas fa-map"></i> Lokasi</a></li>
     </ul>
     <h3>Account Pages</h3>
     <ul>
@@ -26,11 +24,11 @@
 <div class="main-content">
     <header class="main-header">
         <div class="breadcrumb">
-            <span>Pages / Daftar Kategori Aset</span>
-            <h2>Kategori</h2>
+            <span>Pages / Daftar Lokasi Aset</span>
+            <h2>Lokasi</h2>
         </div>
         <div class="header-right">
-            <a href="{% url 'tambah_kategori' %}" class="btn-add"><i class="fas fa-plus"></i> Tambahkan Kategori</a>
+            <a href="{% url 'tambah_posisi' %}" class="btn-add"><i class="fas fa-plus"></i> Tambahkan Posisi</a>
             <a href="#" class="bar-icon"><i class="fas fa-bars sidebar-toggle"></i></a>
         </div>
     </header>
@@ -40,26 +38,26 @@
               <table>
             <thead>
                 <tr>
-                    <th>Nama Kategori</th>
-                    <th>Edit Kategori</th>
+                    <th>Nama Lokasi</th>
+                    <th>Edit Lokasi</th>
                     <th>Delete</th>
                   
                 </tr>
             </thead>
             <tbody>
-                {% for kategori in kategoris %}
+                {% for posisi in posisis %}
                     <tr>
-                        <td data-label="Nama Kategori">{{ kategori.nama }}</td>
+                        <td data-label="Nama Posisi">{{ posisi.lokasi }}</td>
                        
 
                         <td data-label="Edit">
-                            <a href="{% url 'edit_kategori' kategori.id %}" class="btn-edit"><i class="fas fa-pencil-alt"></i> Edit</a>
+                            <a href="{% url 'edit_lokasi' posisi.id %}" class="btn-edit"><i class="fas fa-pencil-alt"></i> Edit</a>
                            
                         </td>
                         <td data-label="Delete">
-                            <form action="{% url 'delete_kategori' kategori.id %}" method="post">
+                            <form action="{% url 'delete_lokasi' posisi.id %}" method="post">
                                 {% csrf_token %}
-                                <button type="submit" class="btn-delete" onclick="return confirm('Apakah Anda yakin ingin menghapus kategori ini?');">
+                                <button type="submit" class="btn-delete" onclick="return confirm('Apakah Anda yakin ingin menghapus Lokasi ini?');">
                                     <i class="fas fa-trash"></i> Delete
                                 </button>
                             </form>

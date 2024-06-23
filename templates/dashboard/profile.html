@@ -8,14 +8,15 @@
 
 <nav class="sidebar-nav">
     <ul>
-        <li><a href="/"><i class="fas fa-home"></i> Dashboard</a></li>
-        <li><a href="/"><i class="fas fa-table"></i> Undanganku</a></li>
-        <li><a href="#"><i class="fas fa-credit-card"></i> Invoice</a></li>
-        <li><a href="#"><i class="fas fa-tools"></i> Tutorial</a></li>
+        <li"><a href="{% url 'dashboard_staff' %}"><i class="fas fa-home"></i> Dashboard</a></li>
+        <!-- <li><a href="/"><i class="fas fa-table"></i> Undanganku</a></li> -->
+        <li><a href="{% url 'list_aset' %}"><i class="fas fa-credit-card"></i>Asset</a></li>
+        <li><a href="{%  url 'list_kategori' %}"><i class="fas fa-tools"></i> Kategori</a></li>
+        <li><a href="{% url 'list_posisi' %}"><i class="fas fa-map"></i> Lokasi</a></li>
     </ul>
     <h3>Account Pages</h3>
     <ul>
-        <li><a href="{% url 'profile' %}"><i class="fas fa-user"></i> Profile</a></li>
+        <li class="active"><a href="{% url 'profile' %}"><i class="fas fa-user"></i> Profile</a></li>
         <li><a href="{% url 'logout' %}"><i class="fas fa-sign-in-alt"></i> Sign Out</a></li>
     </ul>
 </nav>

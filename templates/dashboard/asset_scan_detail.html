@@ -54,6 +54,19 @@
                 Tidak ada
             {% endif %}</p>
         </div>
+        <div class="form-group">
+            <label>Kondisi Aset</label>
+            <p style="font-size: large; color: rgb(255, 213, 0);">{{ asset.kondisi_aset }}</p>
+        </div>
+
+        <div class="form-group">
+            <label>Lokasi Aset</label>
+            <p style="font-size: large; color: black;"> {% if asset.posisi_aset %}
+                {{ asset.posisi_aset.lokasi }}
+            {% else %}
+                Tidak ada
+            {% endif %}</p>
+        </div>
     </div>
 
     <h2>Detail Aset</h2>
@@ -84,59 +97,6 @@
             <p> {{ detail_aset.deskripsi }}</p>
         </div>
     </div>
-
-    <div class="form-section">
-        <h2>Detail Pembelian</h2>
-        <div class="form-row">
-            <div class="form-group">
-                <label>Tanggal Pembelian</label>
-                <p>{{ pembelian.tanggal_pembelian }}</p>
-            </div>
-            <div class="form-group">
-                <label>Toko Distributor</label>
-                <p>{{ pembelian.toko_distributor }}</p>
-            </div>
-        </div>
-        <div class="form-row">
-            <div class="form-group">
-                <label>No Invoice</label>
-                <p> {{ pembelian.no_invoice }}</p>
-            </div>
-            <div class="form-group">
-                <label>Jumlah Aset</label>
-                <p>{{ pembelian.jumlah }}</p>
-            </div>
-        </div>
-
-        <div class="form-row">
-            <div class="form-group">
-                <label>Harga Satuan</label>
-                <p>  {{ pembelian.harga_satuan }}</p>
-            </div>
-            <div class="form-group">
-                <label>Harga Total</label>
-                <p> {{ pembelian.harga_total }}</p>
-            </div>
-        </div>
-    </div>
-
-
-
-    
-    <h2>Detail Aset</h2>
-    <div class="form-section">
-        <div class="form-group">
-            <label>Keterangan Aset
-            </label>
-            <p>{{ lampiran.keterangan }}</p>
-        </div>
-        <!-- <div class="form-group">
-            <label>Kode Aset</label>
-            <p>{{ detail_aset.tipe }}</p>
-        </div> -->
-        
-    </div>
-
 
       
     <h2>Detail Aset</h2>
