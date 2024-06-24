@@ -10,7 +10,7 @@ urlpatterns = [
     path('login/', views.login_view, name='login'),
     path('accounts/login/', views.login_view, name='login'),
     path('', views.login_view, name='login'), 
-    path('register', views.signup_view, name='register'),
+    # path('register', views.signup_view, name='register'),
     path('logout', views.logout_view, name='logout'),
     #Reset Password
     path('accounts/password/reset/', CustomPasswordResetView.as_view(template_name='accounts/password_reset.html'), name='password_reset'),
@@ -47,6 +47,8 @@ urlpatterns = [
 
     path('asset/scan/<int:asset_id>/', viewsStaff.asset_scan_detail, name='asset_scan_detail'),
 
+    path('export', viewsStaff.export_data, name='export_aset_baru'),
+    path('export/posisi/', viewsStaff.export_posisi_asset, name='export_posisi_asset'),
 
 
    

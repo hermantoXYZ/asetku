@@ -5,9 +5,9 @@
     <ul>
         <li><a href="{% url 'dashboard_staff' %}"><i class="fas fa-home"></i> Dashboard</a></li>
         <!-- <li><a href="/"><i class="fas fa-table"></i> Undanganku</a></li> -->
-        <li class="active"><a href="{% url 'list_aset' %}"><i class="fas fa-credit-card"></i>Asset</a></li>
-        <li><a href="{%  url 'list_kategori' %}"><i class="fas fa-tools"></i> Kategori</a></li>
-        <li><a href="{% url 'list_posisi' %}"><i class="fas fa-map"></i> Lokasi</a></li>
+        <li class="active"><a href="{% url 'list_aset' %}"><i class="fas fa-credit-card"></i>List Asset</a></li>
+        <li><a href="{%  url 'list_kategori' %}"><i class="fas fa-tools"></i>List Kategori</a></li>
+        <li><a href="{% url 'list_posisi' %}"><i class="fas fa-map"></i>List Lokasi</a></li>
     </ul>
     <h3>Account Pages</h3>
     <ul>
@@ -24,12 +24,24 @@
             <h2>Assets</h2>
         </div>
         <div class="header-right">
-            <a href="{% url 'add_assets' %}" class="btn-add"><i class="fas fa-plus"></i> Tambahkan Assets</a>
+            <a href="{% url 'add_assets' %}" class="btn-add"><i class="fas fa-plus"></i> Add Assets</a>
             <a href="#" class="bar-icon"><i class="fas fa-bars sidebar-toggle"></i></a>
         </div>
     </header>
 
     <div class="form-container">
+
+       
+        <form method="GET" action="{% url 'export_posisi_asset' %}">
+            <label for="lokasi">Select Position:</label>
+            <select name="lokasi" id="lokasi">
+                {% for posisi in posisi_aset %}
+                    <option value="{{ posisi.lokasi }}">{{ posisi.lokasi }}</option>
+                {% endfor %}
+            </select>
+            <button type="submit" class="btn-export">Export</button>
+            <a href="{% url 'export_aset_baru' %}" class="btn-export">Export Semua Data</a>
+        </form>
         <table>
             <thead>
                 <tr>

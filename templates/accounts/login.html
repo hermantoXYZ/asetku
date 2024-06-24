@@ -1,10 +1,10 @@
 {% extends 'accounts/base.html' %}
-{%block title%}Login User{%endblock%}
+{% block title %}Login User{% endblock %}
 
-{%block content%}
+{% block content %}
 <div class="container-register">
-    <h2>Login <b>SI PASTI</b></h2>
-    <p>Buat akun terlebih dahulu untuk menikmati layanan Inviteku.com</p>
+    <h2>Login User</h2>
+    <p>Silahkan masukkan username dan password anda..</p>
     {% if msg %}
         <span class="text-error">{{ msg | safe }}</span>
     {% endif %}
@@ -23,9 +23,7 @@
     </form>
     <div class="text-reset-password-sm">Anda Lupa Password?
         <a href="{% url 'password_reset' %}" class="reset-password-sm">Lupa Password</a>
-        </div> 
-        <div class="text-reset-password">Belum punya akun?
-            <a href="{% url 'register' %}" class="reset-password">Register</a>
-            </div> 
-  </div>
-{%endblock%}
+    </div> 
+</div>
+
+{% endblock %}

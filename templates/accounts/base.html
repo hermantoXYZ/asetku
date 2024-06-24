@@ -7,11 +7,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}{% endblock %}</title>
     <link rel="stylesheet" href="{% static 'css/styles.css' %}?v={{ STATIC_VERSION }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
 </head>
 <body>
-    <header>
-        <!-- <img src="{{ MEDIA_URL }}logo/invite-white.png" alt="Logo"> -->
-      </header>
+    <!-- <header>
+        <h1>Si Pasti</h1>
+      </header> -->
 {%block content%}
 {%endblock%}
 </body>

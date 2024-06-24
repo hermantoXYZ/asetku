@@ -146,6 +146,7 @@ body {
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
+
 .info-container {
     display: flex;
     flex-wrap: wrap;
@@ -690,7 +691,7 @@ table tbody tr.active-row {
         font-size: 0.8em; /* Ukuran font lebih kecil pada layar kecil */
         border-bottom: 1px solid #dddddd;
         position: relative;
-        padding-left: 50%; /* Padding kiri besar untuk label */
+        padding-left: 24%; /* Padding kiri besar untuk label */
     }
 
     table td::before {
@@ -708,12 +709,23 @@ table tbody tr.active-row {
     }
 }
 
+
+@media (max-width: 768px) {
+.btn-edit, .btn-delete {
+    padding: 2px 2px
+}
+
+    
+}
+
+
+
+
 .btn-edit, .btn-delete {
     display: inline-block;
-    padding: 10px 20px; /* Padding untuk tombol */
+    padding: 5px 10px; /* Padding untuk tombol */
     font-size: 1em; /* Ukuran font yang sesuai dengan elemen induk */
     font-weight: bold;
-   
     border-radius: 5px; /* Sudut membulat pada tombol */
     text-decoration: none; /* Hilangkan garis bawah */
 }
@@ -868,4 +880,20 @@ input[type="date"]:focus {
 @keyframes slideIn {
     from { transform: translateY(-50px); }
     to { transform: translateY(0); }
+}
+
+.btn-export {
+    background-color: #000631;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  text-align: center;
+  font-size: 1em;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  /* display: block; */
+  margin: 20px auto;
+  text-decoration: none;
+  
 }

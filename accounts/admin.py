@@ -1,40 +1,63 @@
+from import_export import resources
+from import_export.admin import ImportExportModelAdmin
 from django.contrib import admin
-from .models import User
-from .models import AsetBaru, DetailAset, Pembelian, Lampiran, Kategori, PenanggungJawab, PosisiAsset
+from .models import Kategori, PosisiAsset, AsetBaru, DetailAset, Pembelian, Lampiran, PenanggungJawab
 
-# Register your models here.
+class KategoriResource(resources.ModelResource):
+    class Meta:
+        model = Kategori
 
-admin.site.register(User)
+class PosisiAssetResource(resources.ModelResource):
+    class Meta:
+        model = PosisiAsset
 
-@admin.register(AsetBaru)
-class AsetBaruAdmin(admin.ModelAdmin):
-    pass  # Jika ingin menggunakan pengaturan default
+class AsetBaruResource(resources.ModelResource):
+    class Meta:
+        model = AsetBaru
 
-@admin.register(DetailAset)
-class DetailAsetAdmin(admin.ModelAdmin):
-    pass
+class DetailAsetResource(resources.ModelResource):
+    class Meta:
+        model = DetailAset
 
-@admin.register(Pembelian)
-class PembelianAdmin(admin.ModelAdmin):
-    pass
+class PembelianResource(resources.ModelResource):
+    class Meta:
+        model = Pembelian
 
-@admin.register(Lampiran)
-class LampiranAdmin(admin.ModelAdmin):
-    pass
+class LampiranResource(resources.ModelResource):
+    class Meta:
+        model = Lampiran
 
-# @admin.register(Penyusutan)
-# class PenyusutanAdmin(admin.ModelAdmin):
-#     pass
+class PenanggungJawabResource(resources.ModelResource):
+    class Meta:
+        model = PenanggungJawab
 
-@admin.register(PenanggungJawab)
-class PenanggungJawabAdmin(admin.ModelAdmin):
-    pass
+# Integrasi resource dengan model admin
+class KategoriAdmin(ImportExportModelAdmin):
+    resource_class = KategoriResource
 
-@admin.register(Kategori)
-class KategoriAdmin(admin.ModelAdmin):
-    pass
+class PosisiAssetAdmin(ImportExportModelAdmin):
+    resource_class = PosisiAssetResource
 
+class AsetBaruAdmin(ImportExportModelAdmin):
+    resource_class = AsetBaruResource
 
-@admin.register(PosisiAsset)
-class PosisiAssetAdmin(admin.ModelAdmin):
-    pass
+class DetailAsetAdmin(ImportExportModelAdmin):
+    resource_class = DetailAsetResource
+
+class PembelianAdmin(ImportExportModelAdmin):
+    resource_class = PembelianResource
+
+class LampiranAdmin(ImportExportModelAdmin):
+    resource_class = LampiranResource
+
+class PenanggungJawabAdmin(ImportExportModelAdmin):
+    resource_class = PenanggungJawabResource
+
+# Register model admin ke Django admin site
+admin.site.register(Kategori, KategoriAdmin)
+admin.site.register(PosisiAsset, PosisiAssetAdmin)
+admin.site.register(AsetBaru, AsetBaruAdmin)
+admin.site.register(DetailAset, DetailAsetAdmin)
+admin.site.register(Pembelian, PembelianAdmin)
+admin.site.register(Lampiran, LampiranAdmin)
+admin.site.register(PenanggungJawab, PenanggungJawabAdmin)
