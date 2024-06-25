@@ -1,1 +1,1 @@
-# mysite_master_django
+# mysite_master_djan
