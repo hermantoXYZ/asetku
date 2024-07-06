@@ -1,0 +1,121 @@
+<!-- export_data.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Data Export</title>
+    <!-- Include any CSS or styling -->
+    <link rel="icon" href="/media/favicon_io/favicon.ico" type="image/x-icon" sizes="android-chrome-192x192"/>
+    <style>
+        /* Your custom styles here */
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            background-color: #f0f0f0;
+            padding: 20px;
+        }
+        h1 {
+            color: #333;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            overflow-x: auto; /* Allow horizontal scrolling on smaller screens */
+        }
+        table th, table td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            font-size: 12px; /* Increase font size for readability */
+            text-align: left;
+            white-space: nowrap; /* Prevent text wrapping */
+            overflow: hidden; /* Hide overflow text */
+            text-overflow: ellipsis; /* Display ellipsis (...) when text overflows */
+        }
+        table th {
+            background-color: #43b600;
+        }
+        .btn {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 4px;
+            margin-top: 20px;
+        }
+        .btn:hover {
+            background-color: #0056b3;
+        }
+
+        /* Responsive design */
+        @media screen and (max-width: 768px) {
+            table {
+                font-size: 10px; /* Decrease font size for smaller screens */
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1>Data Export</h1>
+    <p>Below is the data you are about to export:</p>
+    <div style="overflow-x: auto;">
+        <table>
+            <thead>
+                <tr>
+                    <th>No.</th>
+                    <th>Nama Aset</th>
+                    <th>Kode Aset</th>
+                    <th>Kategori</th>
+                    <th>Kondisi Aset</th>
+                    <th>Posisi Aset</th>
+                    <th>Merk</th>
+                    <th>Tipe</th>
+                    <th>Produsen</th>
+                    <th>No. Seri/Kode Produksi</th>
+                    <th>Tahun Produksi</th>
+                    <th>Deskripsi</th>
+                    <th>Tanggal Kontrak</th>
+                    <th>Toko Distributor</th>
+                    <th>No. Kontrak</th>
+                    <th>Unit</th>
+                    <th>Harga Satuan</th>
+                    <th>Harga Total</th>
+                    <th>Nama Lampiran</th>
+                    <th>Keterangan Lampiran</th>
+                    <th>Nama Penanggung Jawab</th>
+                    <th>Jabatan Penanggung Jawab</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for row in dataset %}
+                    <tr><td>{{ forloop.counter }}</td>
+                        <td>{{ row.0 }}</td>
+                        <td>{{ row.1 }}</td>
+                        <td>{{ row.2 }}</td>
+                        <td>{{ row.3 }}</td>
+                        <td>{{ row.4 }}</td>
+                        <td>{{ row.5 }}</td>
+                        <td>{{ row.6 }}</td>
+                        <td>{{ row.7 }}</td>
+                        <td>{{ row.8 }}</td>
+                        <td>{{ row.9 }}</td>
+                        <td>{{ row.10 }}</td>
+                        <td>{{ row.11 }}</td>
+                        <td>{{ row.12 }}</td>
+                        <td>{{ row.13 }}</td>
+                        <td>{{ row.14 }}</td>
+                        <td>{{ row.15 }}</td>
+                        <td>{{ row.16 }}</td>
+                        <td>https://example.com/{{ row.17 }}</td>
+                        <td>{{ row.18 }}</td>
+                        <td>{{ row.19 }}</td>
+                        <td>{{ row.20 }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <a href="{% url 'export_aset_baru' %}" class="btn btn-primary">Export Data</a>
+</body>
+</html>

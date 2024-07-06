@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Filtered Data Export</title>
+    <link rel="icon" href="/media/favicon_io/favicon.ico" type="image/x-icon" sizes="android-chrome-192x192"/>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            background-color: #f0f0f0;
+            padding: 20px;
+        }
+        h1 {
+            color: #333;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            overflow-x: auto;
+        }
+        table th, table td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            font-size: 12px;
+            text-align: left;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        table th {
+            background-color: #43b600;
+        }
+        .btn {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 4px;
+            margin-top: 20px;
+        }
+        .btn:hover {
+            background-color: #0056b3;
+        }
+        @media screen and (max-width: 768px) {
+            table {
+                font-size: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1>Filtered Data Export</h1>
+    <p>Below is the data you are about to export for location: {{ lokasi_filter }}</p>
+    <div style="overflow-x: auto;">
+        <table>
+            <thead>
+                <tr>  <th>No.</th>
+                    {% for header in headers %}
+                      
+                        <th>{{ header }}</th>
+                    {% endfor %}
+                </tr>
+            </thead>
+            <tbody>
+                {% for row in dataset %}
+                    <tr>   <td>{{ forloop.counter }}</td>
+                        {% for cell in row %}
+                         
+                            <td>{{ cell }}</td>
+                        {% endfor %}
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <a href="{% url 'export_posisi_asset' %}?lokasi={{ lokasi_filter }}" class="btn btn-primary">Export Data</a>
+</body>
+</html>

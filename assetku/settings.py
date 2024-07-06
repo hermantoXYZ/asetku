@@ -16,10 +16,15 @@ from pathlib import Path
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-
-# Static files (CSS, JavaScript, Images)
 STATIC_URL = '/static/'
-STATIC_ROOT = '/home/zonafil1/demoasset/static/'
+STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
+
+
+
+
+# Static files (CSS, JavaScript, Images) FOR DEPLOYMENT HOSTING
+# STATIC_URL = '/static/'
+# STATIC_ROOT = '/home/zonafil1/demoasset/static/'
 
 
 # Quick-start development settings - unsuitable for production
@@ -83,12 +88,30 @@ WSGI_APPLICATION = 'assetku.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
+# DATABASES SQLLITE
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+#     }
+# }
+
+# DATABASES MYSQL
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'db_assetku',       # Nama database MySQL yang telah Anda buat
+        'USER': 'root',   # Username MySQL Anda
+        'PASSWORD': 'Hermanto+12',   # Password MySQL Anda
+        'HOST': 'localhost',          # Lokasi host MySQL, misalnya 'localhost'
+        'PORT': '3306',               # Port koneksi MySQL, misalnya '3306'
+        'OPTIONS': {
+            'charset': 'utf8mb4',     # Opsi tambahan seperti charset
+            'init_command': "SET sql_mode='STRICT_TRANS_TABLES'", #init_command adalah perintah SQL yang dijalankan ketika database dijalankan  
+        },
     }
 }
+
 
 
 # Password validation

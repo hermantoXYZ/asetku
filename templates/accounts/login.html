@@ -1,29 +1,49 @@
-{% extends 'accounts/base.html' %}
-{% block title %}Login User{% endblock %}
-
-{% block content %}
-<div class="container-register">
-    <h2>Login User</h2>
-    <p>Silahkan masukkan username dan password anda..</p>
-    {% if msg %}
-        <span class="text-error">{{ msg | safe }}</span>
-    {% endif %}
-    <form method="post">
-        {% csrf_token %}
-        <div class="form-group">
-            <label for="username">Username</label>
-            {{ form.username }}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link rel="icon" href="/media/favicon_io/favicon.ico" type="image/x-icon" sizes="android-chrome-192x192"/>
+    <link rel="stylesheet" href="{% static 'css/styles-mob.css' %}?v={{ STATIC_VERSION }}">
+</head>
+<body>
+    <div class="container">
+        <div class="login-box">
+            <div class="container-register">
+                <h2>Sign In</h2>
+                <p>Welcome back, please sign in with your account</p>
+                {% if msg %}
+                    <span class="text-error">{{ msg | safe }}</span>
+                {% endif %}
+                <form method="post">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <label for="username">Username</label>
+                        {{ form.username }}
+                    </div>
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        {{ form.password }}
+                
+                    </div>
+                    <span class="text-error">{{ form.errors }}</span>
+                    <input type="submit" value="LOGIN" class="btn-primary">
+                </form>
+                <div class="text-reset-password-sm">Forgot your password?
+                    <a href="{% url 'password_reset' %}" class="reset-password-sm">Lupa Password</a>
+                </div>
+                <footer>
+                    <p>© 2024 Tim SiPASTI</p>
+                    <p>v.1.1.0</p>
+                </footer>
+            </div>
         </div>
-        <div class="form-group">
-            <label for="password">Password</label>
-            {{ form.password }}
+        <div class="image-box">
+            <img src="/media/logo_cover.png" alt="Sipasti">
+            <!-- <p class="version">HCIS v.1.0</p> -->
         </div>
-        <span class="text-error">{{ form.errors }}</span>
-        <input type="submit" value="Login" class="btn-primary">
-    </form>
-    <div class="text-reset-password-sm">Anda Lupa Password?
-        <a href="{% url 'password_reset' %}" class="reset-password-sm">Lupa Password</a>
-    </div> 
-</div>
-
-{% endblock %}
+    </div>
+</body>
+</html>

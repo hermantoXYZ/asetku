@@ -32,7 +32,7 @@
     <div class="form-container">
 
        
-        <form method="GET" action="{% url 'export_posisi_asset' %}">
+        <form method="GET" action="{% url 'view_posisi' %}">
             <label for="lokasi">Select Position:</label>
             <select name="lokasi" id="lokasi">
                 {% for posisi in posisi_aset %}
@@ -40,7 +40,7 @@
                 {% endfor %}
             </select>
             <button type="submit" class="btn-export">Export</button>
-            <a href="{% url 'export_aset_baru' %}" class="btn-export">Export Semua Data</a>
+            <a href="{% url 'view_data' %}" class="btn-export">Export Semua Data</a>
         </form>
         <table>
             <thead>
@@ -50,6 +50,7 @@
                     <th>Kategori</th>
                     <th>Actions</th>
                     <th>QR Code</th>
+                    <th>Gambar</th>
                 </tr>
             </thead>
             <tbody>
@@ -75,6 +76,20 @@
                                 <img src="data:image/png;base64,{{ asset.qr_code_img }}" alt="QR Code" />
                             </a>
                             <img src="data:image/png;base64,{{ asset.qr_code_img }}" alt="QR Code" style="display: none;" />
+
+                        </td>
+                        <td data-label="pictures" style="background-color: #fff;">
+                            {% if asset.lampiran.exists %}
+                                {% for item in asset.lampiran.all %}
+                                    {% if item.foto %}
+                                        <img src="{{ item.foto.url }}" alt="lampiran" width="90px" style="border-radius: 10px;">
+                                    {% else %}
+                                        Tidak ada Foto
+                                    {% endif %}
+                                {% endfor %}
+                            {% else %}
+                                Tidak ada Foto
+                            {% endif %}
                         </td>
                     </tr>
                 {% endfor %}
@@ -85,20 +100,32 @@
         <div id="qrCodeModal" class="modal">
             <div class="modal-content">
                 <span class="close" onclick="closeModal()">&times;</span>
-                <img id="modalImage" src="" alt="QR Code">
+                <img id="qrCodeImage" src="" alt="QR Code" />
+                <a id="downloadLink" href="#" download="qrcode.png">Unduh QR Code</a>
             </div>
         </div>
     </div>
 </div>
 
 <script>
-    function showQRCode(src) {
-        document.getElementById('modalImage').src = 'data:image/png;base64,' + src;
-        document.getElementById('qrCodeModal').style.display = 'block';
+    function showQRCode(qrCodeData) {
+        var modal = document.getElementById('qrCodeModal');
+        var qrCodeImage = document.getElementById('qrCodeImage');
+        var downloadLink = document.getElementById('downloadLink');
+
+        // Set QR Code image source
+        qrCodeImage.src = 'data:image/png;base64,' + qrCodeData;
+
+        // Set download link href
+        downloadLink.href = 'data:image/png;base64,' + qrCodeData;
+
+        // Show modal
+        modal.style.display = 'block';
     }
 
     function closeModal() {
-        document.getElementById('qrCodeModal').style.display = 'none';
+        var modal = document.getElementById('qrCodeModal');
+        modal.style.display = 'none';
     }
 </script>
 

@@ -50,7 +50,8 @@ urlpatterns = [
     path('export', viewsStaff.export_data, name='export_aset_baru'),
     path('export/posisi/', viewsStaff.export_posisi_asset, name='export_posisi_asset'),
 
-
+    path('export/view/', viewsStaff.view_data, name='view_data'),
+    path('export/view/posisi/', viewsStaff.view_posisi_asset, name='view_posisi'),
    
 
 

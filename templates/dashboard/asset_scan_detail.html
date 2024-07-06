@@ -1,46 +1,22 @@
-{% extends 'dashboard/base.html' %}
-{% block title %}Add Aset{% endblock %}
-{% block content %}
+{% load static %}
 
-
-
-<nav class="sidebar-nav">
-    <ul>
-        <li class="active"><a href="{% url 'dashboard_staff' %}"><i class="fas fa-home"></i> Dashboard</a></li>
-        <!-- <li><a href="/"><i class="fas fa-table"></i> Undanganku</a></li> -->
-        <li><a href="{% url 'list_aset' %}"><i class="fas fa-credit-card"></i>Daftar Asset</a></li>
-        <li><a href="#"><i class="fas fa-tools"></i> Data</a></li>
-    </ul>
-    <h3>Account Pages</h3>
-    <ul>
-        <li><a href="{% url 'profile' %}"><i class="fas fa-user"></i> Profile</a></li>
-        <li><a href="{% url 'logout' %}"><i class="fas fa-sign-in-alt"></i> Sign Out</a></li>
-    </ul>
-</nav>
-</aside>
-
-
-
-
-<div class="main-content">
-    <header class="main-header">
-        <div class="breadcrumb">
-            <span>Pages / Add Assets</span>
-            <h2>Detail Assets</h2>
-        </div>
-        <div class="header-right">
-            <a href="{% url 'add_assets' %}" class="btn-add"><i class="fas fa-plus"></i> Add Assets</a>
-            <a href="#" class="bar-icon"><i class="fas fa-bars sidebar-toggle"></i></a>
-        </div>
-    </header>
-    
-    <div class="container-ku">
-    <div class="form-container">
-        <h2>Umum</h2>
-    <div class="form-section">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detail Assets</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'dashboard/styles.css' %}?v={{ STATIC_VERSION }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+</head>
+<body>
+    <div class="form-container"  style="max-width: 1000px; margin: 0 auto;">
+        <h2>Detail Assets</h2>
+    <div class="form-section" style="background-color: #fff;">
         <div class="form-group">
             <label>Nama Aset</label>
-            <p>{{ asset.nama_aset }}</p>
+            <p style="font-size: large;">{{ asset.nama_aset }}</p>
         </div>
         <div class="form-group">
             <label>Kode Aset</label>
@@ -56,7 +32,15 @@
         </div>
         <div class="form-group">
             <label>Kondisi Aset</label>
-            <p style="font-size: large; color: rgb(255, 213, 0);">{{ asset.kondisi_aset }}</p>
+        {% if asset.kondisi_aset == 'Rusak' %}
+            <p style="color: rgb(255, 151, 16); font-size: large;">{{ asset.kondisi_aset }}</p>
+        {% elif asset.kondisi_aset == 'Baik' %}
+            <p style="color: green; font-size: large;">{{ asset.kondisi_aset }}</p>
+        {% elif asset.kondisi_aset == 'Rusak Berat' %}
+            <p style="color: red; font-size: large;">{{ asset.kondisi_aset }}</p>
+        {% else %}
+            {{ asset.kondisi_aset }}
+        {% endif %}
         </div>
 
         <div class="form-group">
@@ -67,9 +51,20 @@
                 Tidak ada
             {% endif %}</p>
         </div>
+
+        <div class="form-group">
+            {% for item in lampiran %}
+            {% if item.foto %}
+                <img src="{{ item.foto.url }}" alt="lampiran" width="100%">
+                <p>Gambar {{ asset.kategori.nama }} dengan kode Asset: {{ asset.kode_aset }}</p>
+            {% else %}
+                Tidak ada Foto
+            {% endif %}
+            {% endfor %}
+        </div>
     </div>
 
-    <h2>Detail Aset</h2>
+    <!-- <h2>Detail Aset</h2>
     <div class="form-section">
         <div class="form-group">
             <label>MerK Aset</label>
@@ -96,24 +91,54 @@
             <label>Deskripsi Aset</label>
             <p> {{ detail_aset.deskripsi }}</p>
         </div>
-    </div>
+    </div> -->
 
       
-    <h2>Detail Aset</h2>
+    <h2>Penanggung Jawab Aset</h2>
     <div class="form-section">
         <div class="form-group">
             <label>Nama Penanggung Jawab</label>
-            <p>{{ penanggung_jawab.nama }}</p>
+            <p style="font-size: large; color: black;">{{ penanggung_jawab.nama }}</p>
         </div>
         <div class="form-group">
             <label>Jabatan</label>
-            <p> {{ penanggung_jawab.jabatan }}</p>
+            <p style="font-size: large;"> {{ penanggung_jawab.jabatan }}</p>
         </div>
         
     </div>
 
 
     <div class="footer">
-        &copy; 2023 - Asset Management System
+        &copy; 2024 - Asset Management System
     </div>
-    {% endblock %}
+
+
+
+</div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+         var sidebar = document.querySelector('.sidebar');
+         var barIcon = document.querySelector('.sidebar-toggle');
+         var closeBtn = document.querySelector('.close-btn');
+     
+         barIcon.addEventListener('click', function(e) {
+             e.preventDefault();
+             sidebar.classList.toggle('show');
+         });
+     
+         closeBtn.addEventListener('click', function(e) {
+             e.preventDefault();
+             sidebar.classList.remove('show');
+         });
+     
+         // Close the sidebar if the user clicks outside of it
+         window.addEventListener('click', function(event) {
+             if (!sidebar.contains(event.target) && event.target !== barIcon) {
+                 sidebar.classList.remove('show');
+             }
+         });
+     });
+     </script>
+     </body>
+     </html>
+     

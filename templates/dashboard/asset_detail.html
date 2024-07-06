@@ -57,7 +57,15 @@
         </div>
         <div class="form-group">
             <label>Kondisi Aset</label>
-            <p style="font-size: large; color: rgb(255, 213, 0);">{{ asset.kondisi_aset }}</p>
+        {% if asset.kondisi_aset == 'Rusak' %}
+            <p style="color: rgb(255, 151, 16); font-size: large;">{{ asset.kondisi_aset }}</p>
+        {% elif asset.kondisi_aset == 'Baik' %}
+            <p style="color: green; font-size: large;">{{ asset.kondisi_aset }}</p>
+        {% elif asset.kondisi_aset == 'Rusak Berat' %}
+            <p style="color: red; font-size: large;">{{ asset.kondisi_aset }}</p>
+        {% else %}
+            {{ asset.kondisi_aset }}
+        {% endif %}
         </div>
 
         <div class="form-group">
@@ -95,6 +103,16 @@
         <div class="form-group">
             <label>Deskripsi Aset</label>
             <p style="font-size: large; color: black;"> {{ detail_aset.deskripsi }}</p>
+        </div>
+        <div class="form-group">
+            {% for item in lampiran %}
+            {% if item.foto %}
+                <img src="{{ item.foto.url }}" alt="lampiran" width="100%">
+                <p>Gambar {{ asset.kategori.nama }} dengan kode Asset: {{ asset.kode_aset }}</p>
+            {% else %}
+                Tidak ada Foto
+            {% endif %}
+            {% endfor %}
         </div>
     </div>
 
@@ -141,7 +159,13 @@
         <div class="form-group">
             <label>Keterangan Aset
             </label>
-            <p style="font-size: large; color: black;">{{ lampiran.keterangan }}</p>
+            {% for item in lampiran %}
+            {% if item.keterangan %}
+            <p style="font-size: large; color: black;">{{ item.keterangan }}</p>
+            {% else %}
+            Tidak ada Keterangan
+            {% endif %}
+            {% endfor %}
         </div>
         <!-- <div class="form-group">
             <label>Kode Aset</label>

@@ -174,6 +174,8 @@ def create_aset(request):
 def list_aset(request):
     assets = AsetBaru.objects.all().order_by('-id')
     posisi_aset = PosisiAsset.objects.all()
+    lampiran = Lampiran.objects.all()
+
     for asset in assets:
         
 
@@ -197,6 +199,7 @@ def list_aset(request):
     context = {
         'assets': assets,
         'posisi_aset': posisi_aset,
+        'lampiran': lampiran
     }
     return render(request, 'dashboard/list_assets.html', context)
 
@@ -431,6 +434,7 @@ def asset_detail(request, asset_id):
     return render(request, 'dashboard/asset_detail.html', context)
 
 
+
 def asset_scan_detail(request, asset_id):
     asset = get_object_or_404(AsetBaru, id=asset_id)
     detail_aset = DetailAset.objects.filter(aset=asset).first()
@@ -453,6 +457,8 @@ def asset_scan_detail(request, asset_id):
     }
     return render(request, 'dashboard/asset_scan_detail.html', context)
 
+@login_required
+@user_passes_test(is_staff)
 def export_data(request):
     # Initialize resources for each model
     aset_resource = AsetBaruResource()
@@ -507,7 +513,8 @@ def export_data(request):
     return response
 
 
-
+@login_required
+@user_passes_test(is_staff)
 def export_posisi_asset(request):
     # Get the filter parameter from the request (e.g., URL query parameter)
     lokasi_filter = request.GET.get('lokasi', None)
@@ -555,11 +562,119 @@ def export_posisi_asset(request):
                 pembelian.harga_satuan if pembelian else '',
                 pembelian.harga_total if pembelian else '',
                 ', '.join([lampiran.foto.name for lampiran in lampirans]) if lampirans else '',
-                ', '.join([lampiran.keterangan for lampiran in lampirans]) if lampirans else '',
+                ', '.join([lampirans.keterangan for lampirans in lampirans]) if lampirans else '',
                 ', '.join([pj.nama for pj in penanggung_jawabs]) if penanggung_jawabs else '',
                 ', '.join([pj.jabatan for pj in penanggung_jawabs]) if penanggung_jawabs else '',
             ])
 
     response = HttpResponse(dataset.csv, content_type='text/csv')
-    response['Content-Disposition'] = 'attachment; filename="filtered_posisi_asset_data.csv"'
+    response['Content-Disposition'] = f'attachment; filename="filtered_posisi_asset_data_{lokasi_filter}.csv"'
     return response
+
+@login_required
+@user_passes_test(is_staff)
+def view_data(request):
+    dataset = Dataset()
+    dataset.headers = [
+        'Nama Aset', 'Kode Aset', 'Kategori', 'Kondisi Aset', 'Posisi Aset',
+        'Merk', 'Tipe', 'Produsen', 'No. Seri/Kode Produksi', 'Tahun Produksi', 'Deskripsi',
+        'Tanggal Kontrak', 'Toko Distributor', 'No. Kontrak', 'Unit', 'Harga Satuan', 'Harga Total',
+        'Nama Lampiran', 'Keterangan Lampiran',
+        'Nama Penanggung Jawab', 'Jabatan Penanggung Jawab'
+    ]
+
+    # Query data from AsetBaru and related models
+    queryset_aset = AsetBaru.objects.all()
+    for aset in queryset_aset:
+        detail = aset.detail
+        pembelian = aset.pembelian.all().first()  # Assuming there's only one pembelian per aset
+        lampirans = aset.lampiran.all()
+        penanggung_jawabs = aset.penanggung_jawab.all()
+
+        dataset.append([
+            aset.nama_aset,
+            aset.kode_aset,
+            aset.kategori.nama if aset.kategori else '',
+            aset.get_kondisi_aset_display(),
+            aset.posisi_aset.lokasi if aset.posisi_aset else '',
+            detail.merk if detail else '',
+            detail.tipe if detail else '',
+            detail.produsen if detail else '',
+            detail.no_seri_kode_produksi if detail else '',
+            detail.tahun_produksi if detail else '',
+            detail.deskripsi if detail else '',
+            pembelian.tanggal_kontrak if pembelian else '',
+            pembelian.toko_distributor if pembelian else '',
+            pembelian.no_kontrak if pembelian else '',
+            pembelian.unit if pembelian else '',
+            pembelian.harga_satuan if pembelian else '',
+            pembelian.harga_total if pembelian else '',
+            ', '.join([lampiran.foto.name for lampiran in lampirans]) if lampirans else '',
+            ', '.join([lampiran.keterangan for lampiran in lampirans]) if lampirans else '',
+            ', '.join([pj.nama for pj in penanggung_jawabs]) if penanggung_jawabs else '',
+            ', '.join([pj.jabatan for pj in penanggung_jawabs]) if penanggung_jawabs else '',
+        ])
+
+    return render(request, 'dashboard/export_data.html', {'dataset': dataset})
+
+
+@login_required
+@user_passes_test(is_staff)
+def view_posisi_asset(request):
+    # Get the filter parameter from the request (e.g., URL query parameter)
+    lokasi_filter = request.GET.get('lokasi', None)
+    
+    dataset = []
+    headers = [
+        'Nama Aset', 'Kode Aset', 'Kategori', 'Kondisi Aset', 'Posisi Aset',
+        'Merk', 'Tipe', 'Produsen', 'No. Seri/Kode Produksi', 'Tahun Produksi', 'Deskripsi',
+        'Tanggal Kontrak', 'Toko Distributor', 'No. Kontrak', 'Unit', 'Harga Satuan', 'Harga Total',
+        'Nama Lampiran', 'Keterangan Lampiran',
+        'Nama Penanggung Jawab', 'Jabatan Penanggung Jawab'
+    ]
+
+    # Filter data based on the specified 'lokasi'
+    if lokasi_filter:
+        queryset_posisi = PosisiAsset.objects.filter(lokasi=lokasi_filter)
+    else:
+        queryset_posisi = PosisiAsset.objects.all()
+
+    # Query data from AsetBaru related to the filtered PosisiAsset
+    for posisi in queryset_posisi:
+        queryset_aset = AsetBaru.objects.filter(posisi_aset=posisi)
+        for aset in queryset_aset:
+            detail = aset.detail
+            pembelian = aset.pembelian.all().first()  # Assuming there's only one pembelian per aset
+            lampirans = aset.lampiran.all()
+            penanggung_jawabs = aset.penanggung_jawab.all()
+
+            dataset.append([
+                aset.nama_aset,
+                aset.kode_aset,
+                aset.kategori.nama if aset.kategori else '',
+                aset.get_kondisi_aset_display(),
+                posisi.lokasi,
+                detail.merk if detail else '',
+                detail.tipe if detail else '',
+                detail.produsen if detail else '',
+                detail.no_seri_kode_produksi if detail else '',
+                detail.tahun_produksi if detail else '',
+                detail.deskripsi if detail else '',
+                pembelian.tanggal_kontrak if pembelian else '',
+                pembelian.toko_distributor if pembelian else '',
+                pembelian.no_kontrak if pembelian else '',
+                pembelian.unit if pembelian else '',
+                pembelian.harga_satuan if pembelian else '',
+                pembelian.harga_total if pembelian else '',
+                ', '.join([lampiran.foto.name for lampiran in lampirans]) if lampirans else '',
+                ', '.join([lampirans.keterangan for lampirans in lampirans]) if lampirans else '',
+                ', '.join([pj.nama for pj in penanggung_jawabs]) if penanggung_jawabs else '',
+                ', '.join([pj.jabatan for pj in penanggung_jawabs]) if penanggung_jawabs else '',
+            ])
+
+    context = {
+        'headers': headers,
+        'dataset': dataset,
+        'lokasi_filter': lokasi_filter,
+    }
+    return render(request, 'dashboard/export_posisi_asset.html', context)

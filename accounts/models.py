@@ -4,6 +4,30 @@ from django.contrib.auth.models import AbstractUser
 from django.utils import timezone
 import uuid
 
+import os
+from django.utils.text import slugify
+from datetime import datetime
+import random
+
+def rename_image(instance, filename):
+    upload_to = 'images/'
+    ext = filename.split('.')[-1]
+    
+    current_date = datetime.now().strftime('%Y_%m_%d')
+    random_number = random.randint(100000, 999999)  # Generate a 6-digit random number
+    
+    if hasattr(instance, 'judul') and instance.judul:
+        filename = f"{slugify(instance.judul)}_{current_date}_{random_number}.{ext}"
+    elif hasattr(instance, 'title') and instance.title:
+        filename = f"{slugify(instance.title)}_{current_date}_{random_number}.{ext}"
+    elif instance.pk:
+        filename = f"{instance.pk}_{current_date}_{random_number}.{ext}"
+    else:
+        filename = f"{current_date}_{random_number}.{ext}"
+    
+    return os.path.join(upload_to, filename)
+
+
 class User(AbstractUser):
     is_admin = models.BooleanField('Is admin', default=False)
     is_staff = models.BooleanField('Is staff', default=False)
@@ -94,7 +118,7 @@ class Pembelian(models.Model):
     
 class Lampiran(models.Model):
     aset = models.ForeignKey(AsetBaru, on_delete=models.CASCADE, related_name='lampiran')
-    foto = models.FileField(upload_to='lampiran/')
+    foto = models.FileField(upload_to=rename_image, blank=True, null=True)
     keterangan = models.TextField(blank=True)
 
     def __str__(self):
