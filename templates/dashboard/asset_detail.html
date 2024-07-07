@@ -68,6 +68,15 @@
         {% endif %}
         </div>
 
+
+        <h2>QR Code</h2>
+    {% if asset.qr_code %}
+        <img src="{{ asset.qr_code.url }}" alt="QR Code" />
+    {% else %}
+        <p>QR Code tidak tersedia.</p>
+    {% endif %}
+
+    
         <div class="form-group">
             <label>Lokasi Aset</label>
             <p style="font-size: large; color: black;"> {% if asset.posisi_aset %}

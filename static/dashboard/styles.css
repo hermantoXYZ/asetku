@@ -846,6 +846,7 @@ input[type="date"]:focus {
     border: 1px solid #888;
     width: 80%;
     max-width: 400px;
+    border-radius: 10px;
     position: relative;
     text-align: center;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
@@ -914,4 +915,16 @@ input[type="date"]:focus {
   margin: 20px auto;
   text-decoration: none;
   
+}
+
+.search-icon {
+    display: inline-block;
+    margin-left: 9px;
+    cursor: pointer;
+    color: #119000; /* Change color as needed */
+    font-size: 1.2em; /* Adjust size as needed */
+}
+
+.search-icon:hover {
+    color: #007bff; /* Change hover color as needed */
 }

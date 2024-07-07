@@ -53,6 +53,7 @@ urlpatterns = [
     path('export/view/', viewsStaff.view_data, name='view_data'),
     path('export/view/posisi/', viewsStaff.view_posisi_asset, name='view_posisi'),
    
+    path('search/', views.search_view, name='search'),
 
 
 ]

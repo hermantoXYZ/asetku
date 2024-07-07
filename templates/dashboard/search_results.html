@@ -1,0 +1,172 @@
+{% extends 'dashboard/base.html' %}
+{% block title %}List Aset{% endblock %}
+{% block content %}
+<nav class="sidebar-nav">
+    <ul>
+        <li><a href="{% url 'dashboard_staff' %}"><i class="fas fa-home"></i> Dashboard</a></li>
+        <!-- <li><a href="/"><i class="fas fa-table"></i> Undanganku</a></li> -->
+        <li class="active"><a href="{% url 'list_aset' %}"><i class="fas fa-credit-card"></i>List Asset</a></li>
+        <li><a href="{%  url 'list_kategori' %}"><i class="fas fa-tools"></i>List Kategori</a></li>
+        <li><a href="{% url 'list_posisi' %}"><i class="fas fa-map"></i>List Lokasi</a></li>
+    </ul>
+    <h3>Account Pages</h3>
+    <ul>
+        <li><a href="{% url 'profile' %}"><i class="fas fa-user"></i> Profile</a></li>
+        <li><a href="{% url 'logout' %}"><i class="fas fa-sign-in-alt"></i> Sign Out</a></li>
+    </ul>
+</nav>
+</aside>
+
+
+
+<div class="main-content">
+    <header class="main-header">
+        <div class="breadcrumb">
+            <span>Pages / List Assets</span>
+            <h2>Assets</h2>
+        </div>
+        <div class="header-right">
+            <a href="{% url 'add_assets' %}" class="btn-add"><i class="fas fa-plus"></i> Add Assets</a>
+            <a href="#" class="bar-icon"><i class="fas fa-bars sidebar-toggle"></i></a>
+        </div>
+    </header>
+
+    
+        <!-- <form method="GET" action="{% url 'view_posisi' %}">
+            <label for="lokasi">Select Position:</label>
+            <select name="lokasi" id="lokasi">
+                {% for posisi in posisi_aset %}
+                    <option value="{{ posisi.lokasi }}">{{ posisi.lokasi }}</option>
+                {% endfor %}
+            </select>
+            <button type="submit" class="btn-export">Export</button>
+            <a href="{% url 'view_data' %}" class="btn-export">Export Semua Data</a>
+          
+        </form> -->
+       
+
+
+
+
+    {% if query %}
+
+    <a href="{% url 'search' %}?query={{ query }}" class="btn-export">Results for {{ query }}</a>
+    <a href="#" class="search-icon" onclick="openSearchPopup()"><i class="fas fa-search"></i></a>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Nama Aset</th>
+                <th>Kode Aset</th>
+                <th>Kategori</th>
+                <th>Actions</th>
+                <th>QR Code</th>
+                <th>Gambar</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for result in results %}
+                <tr>
+                    <td>{{ result.nama_aset }}
+                        <a href="{% url 'asset_detail' result.id %}" class="view-icon">
+                            <i class="fa fa-eye"></i>
+                        </a>
+                    </td>
+                    <td>{{ result.kode_aset }}</td>
+                    <td>{{ result.kategori }}</td>
+                    <td>
+                      
+                        <a href="{% url 'edit_asset' result.id %}" class="btn-edit"><i class="fas fa-pencil-alt"></i> Edit</a>
+                        <a href="{% url 'delete_asset' result.id %}" class="btn-delete"
+                        onclick="return confirm('Apakah Anda yakin ingin menghapus aset ini?');">
+                        <i class="fas fa-trash"></i> Delete
+                     </a>
+                    </td>
+                    <td data-label="QR Code">
+                        {% if result.qr_code %}
+                            <a href="#qrCodeModal" class="btn-view" onclick="showQRCode('{{ result.qr_code.url }}')">
+                                <img src="{{ result.qr_code.url }}" alt="QR Code" />
+                            </a>
+                            <img src="{{ result.qr_code.url }}" alt="QR Code" style="display: none;" />
+                        {% else %}
+                            <p>No QR Code available</p>
+                        {% endif %}
+                    </td>
+                    <td data-label="Pictures" style="background-color: #fff;">
+                        {% if result.lampiran.exists %}
+                            {% for item in result.lampiran.all %}
+                                {% if item.foto %}
+                                    <img src="{{ item.foto.url }}" alt="Lampiran" width="90px" style="border-radius: 10px;">
+                                {% else %}
+                                    No Photo Available
+                                {% endif %}
+                            {% endfor %}
+                        {% else %}
+                            No Photo Available
+                        {% endif %}
+                    </td>
+                </tr>
+            {% empty %}
+                <tr>
+                    <td colspan="6">No results found.</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endif %}
+
+
+<div id="qrCodeModal" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="closeModal()">&times;</span>
+        <img id="qrCodeImage" src="" alt="QR Code" />
+        <a id="downloadLink" href="#" download="qrcode.png">Unduh QR Code</a>
+    </div>
+</div>
+
+    
+  <!-- Search Popup -->
+  <div id="searchPopup" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="closeSearchPopup()">&times;</span>
+        <form method="GET" action="{% url 'search' %}">
+            <label for="search">Search:</label>
+            <input type="text" id="search" name="query" placeholder="Enter search term...">
+            <button type="submit">Search</button>
+        </form>
+    </div>
+</div>
+
+
+<script>
+    function showQRCode(qrCodeData) {
+        var modal = document.getElementById('qrCodeModal');
+        var qrCodeImage = document.getElementById('qrCodeImage');
+        var downloadLink = document.getElementById('downloadLink');
+
+        // Set QR Code image source
+        qrCodeImage.src = qrCodeData;
+
+        // Set download link href
+        downloadLink.href = qrCodeData;
+
+        // Show modal
+        modal.style.display = 'block';
+    }
+
+    function closeModal() {
+        document.getElementById('qrCodeModal').style.display = 'none';
+    }
+
+    function closeSearchPopup() {
+        var searchPopup = document.getElementById('searchPopup');
+        searchPopup.style.display = 'none';
+    }
+
+    function openSearchPopup() {
+        var searchPopup = document.getElementById('searchPopup');
+        searchPopup.style.display = 'block';
+    }
+</script>
+
+{% endblock %}

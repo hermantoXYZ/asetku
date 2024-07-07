@@ -209,3 +209,6 @@ class PosisiAsetForm(forms.ModelForm):
     class Meta:
         model = PosisiAsset
         fields = ['lokasi']
+
+class SearchForm(forms.Form):
+    query = forms.CharField(label='Search', max_length=100)

@@ -101,6 +101,7 @@
                     <th>Kategori</th>
                     <th>Actions</th>
                     <th>QR Code</th>
+                    <th>Gambar</th>
                 </tr>
             </thead>
             <tbody>
@@ -122,10 +123,27 @@
                             </a>
                         </td>
                         <td data-label="QR Code">
-                            <a href="#qrCodeModal" class="btn-view" onclick="showQRCode('{{ asset.qr_code_img }}')">
-                                <img src="data:image/png;base64,{{ asset.qr_code_img }}" alt="QR Code" />
-                            </a>
-                            <img src="data:image/png;base64,{{ asset.qr_code_img }}" alt="QR Code" style="display: none;" />
+                            {% if asset.qr_code %}
+                                <a href="#qrCodeModal" class="btn-view" onclick="showQRCode('{{ asset.qr_code.url }}')">
+                                    <img src="{{ asset.qr_code.url }}" alt="QR Code" />
+                                </a>
+                                <img src="{{ asset.qr_code.url }}" alt="QR Code" style="display: none;" />
+                            {% else %}
+                                <p>No QR Code available</p>
+                            {% endif %}
+                        </td>
+                        <td data-label="pictures" style="background-color: #fff;">
+                            {% if asset.lampiran.exists %}
+                                {% for item in asset.lampiran.all %}
+                                    {% if item.foto %}
+                                        <img src="{{ item.foto.url }}" alt="lampiran" width="90px" style="border-radius: 10px;">
+                                    {% else %}
+                                        Tidak ada Foto
+                                    {% endif %}
+                                {% endfor %}
+                            {% else %}
+                                Tidak ada Foto
+                            {% endif %}
                         </td>
                     </tr>
                 {% endfor %}
@@ -133,10 +151,12 @@
         </table>
 
         <!-- QR Code Modal -->
+        <!-- QR Code Modal -->
         <div id="qrCodeModal" class="modal">
             <div class="modal-content">
                 <span class="close" onclick="closeModal()">&times;</span>
-                <img id="modalImage" src="" alt="QR Code">
+                <img id="qrCodeImage" src="" alt="QR Code" />
+                <a id="downloadLink" href="#" download="qrcode.png">Unduh QR Code</a>
             </div>
         </div>
     </div>
@@ -146,15 +166,27 @@
         </main>
     </div>
     <script>
-        function showQRCode(src) {
-            document.getElementById('modalImage').src = 'data:image/png;base64,' + src;
-            document.getElementById('qrCodeModal').style.display = 'block';
+        function showQRCode(qrCodeData) {
+            var modal = document.getElementById('qrCodeModal');
+            var qrCodeImage = document.getElementById('qrCodeImage');
+            var downloadLink = document.getElementById('downloadLink');
+    
+            // Set QR Code image source
+            qrCodeImage.src = qrCodeData;
+    
+            // Set download link href
+            downloadLink.href = qrCodeData;
+    
+            // Show modal
+            modal.style.display = 'block';
         }
     
         function closeModal() {
             document.getElementById('qrCodeModal').style.display = 'none';
         }
+    
     </script>
+    
 {% endblock %}
 </body>
 </html>

@@ -1,4 +1,5 @@
 # models.py
+from io import BytesIO
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.utils import timezone
@@ -8,6 +9,13 @@ import os
 from django.utils.text import slugify
 from datetime import datetime
 import random
+
+from io import BytesIO
+import qrcode
+from PIL import Image, ImageDraw, ImageFont
+from django.core.files.base import ContentFile 
+from urllib.parse import urlparse
+from django.urls import reverse
 
 def rename_image(instance, filename):
     upload_to = 'images/'
@@ -56,6 +64,7 @@ KONDISI_CHOICES = (
     ('Rusak Berat', 'Rusak Berat'),
 )
 
+
 class AsetBaru(models.Model):
     nama_aset = models.CharField(max_length=255)
     kode_aset = models.CharField(max_length=50, blank=True, null=True)
@@ -75,14 +84,49 @@ class AsetBaru(models.Model):
         prefix = "ENV"
         unique_id = uuid.uuid4().hex[:6]  # Mendapatkan 6 karakter pertama dari UUID dalam bentuk hex
 
-        return f"{unique_id}/{prefix}/{current_day}/{current_month}/{current_year}"
+        return f"{unique_id}/{prefix}/{current_day}_{current_month}_{current_year}"
+
+    def generate_qr_code(self, detail_url):
+        qr = qrcode.QRCode(
+            version=1,
+            error_correction=qrcode.constants.ERROR_CORRECT_L,
+            box_size=10,
+            border=4,
+        )
+        qr.add_data(detail_url)
+        qr.make(fit=True)
+        qr_img = qr.make_image(fill='black', back_color='white').convert('RGB')
+
+        font = ImageFont.load_default()
+        text = f"Aset DPRD Luwu Timur / Kode Aset: {self.kode_aset}"
+        draw = ImageDraw.Draw(qr_img)
+        width, height = qr_img.size
+        text_width = len(text) * 6
+        text_height = 10
+        text_x = (width - text_width) // 2
+        text_y = height - text_height - 5
+        draw.text((text_x, text_y), text, fill='black', font=font)
+        return qr_img
 
     def save(self, *args, **kwargs):
         if not self.kode_aset:
             self.kode_aset = self.generate_kode_aset()
+
         super(AsetBaru, self).save(*args, **kwargs)
 
-    
+        if not self.qr_code:
+            detail_url = reverse('asset_scan_detail', kwargs={'asset_id': self.id})
+            absolute_url = self.build_absolute_uri(detail_url)
+            qr_img = self.generate_qr_code(absolute_url)
+            buffer = BytesIO()
+            qr_img.save(buffer, format="PNG")
+            self.qr_code.save(f"{self.kode_aset}.png", ContentFile(buffer.getvalue()), save=False)
+            super(AsetBaru, self).save(*args, **kwargs)
+
+    def build_absolute_uri(self, detail_url):
+        return f"http://127.0.0.1:8000{detail_url}"
+
+
 class DetailAset(models.Model):
 
     TAHUN_PRODUKSI_CHOICES = [

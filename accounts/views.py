@@ -1,11 +1,12 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login
-from .forms import LoginForm, SignUpForm
+from .forms import LoginForm, SignUpForm, SearchForm
 from django.contrib.auth import logout
 from django.contrib.auth.decorators import user_passes_test
 from django.contrib.auth.decorators import login_required
 
 from django.contrib.auth.views import PasswordResetView
+from .models import AsetBaru
 
 class CustomPasswordResetView(PasswordResetView):
     success_url = '/accounts/reset/password/done/'
@@ -62,3 +63,29 @@ def logout_view(request):
 #     # Your dashboard logic goes here
 #     return render(request, 'dashboard.html')
 
+
+@login_required
+@user_passes_test(lambda u: u.is_staff)
+def search_view(request):
+    form = SearchForm()
+    query = None
+    results = []
+
+    if 'query' in request.GET:
+        form = SearchForm(request.GET)
+        if form.is_valid():
+            query = form.cleaned_data['query']
+            results = AsetBaru.objects.filter(nama_aset__icontains=query)
+
+            # Iterate through results and attach QR code URL
+            for result in results:
+                # Assuming qr_code is an ImageField in AsetBaru model
+                if result.qr_code:
+                    result.qr_code_url = result.qr_code.url  # Adjust according to your model field
+
+    context = {
+        'form': form,
+        'query': query,
+        'results': results,
+    }
+    return render(request, 'dashboard/search_results.html', context)

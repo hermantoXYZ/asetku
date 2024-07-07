@@ -29,9 +29,7 @@
         </div>
     </header>
 
-    <div class="form-container">
-
-       
+    
         <form method="GET" action="{% url 'view_posisi' %}">
             <label for="lokasi">Select Position:</label>
             <select name="lokasi" id="lokasi">
@@ -41,7 +39,11 @@
             </select>
             <button type="submit" class="btn-export">Export</button>
             <a href="{% url 'view_data' %}" class="btn-export">Export Semua Data</a>
+            <a href="#" class="search-icon" onclick="openSearchPopup()"><i class="fas fa-search"></i></a>
         </form>
+
+
+
         <table>
             <thead>
                 <tr>
@@ -72,12 +74,16 @@
                             </a>
                         </td>
                         <td data-label="QR Code">
-                            <a href="#qrCodeModal" class="btn-view" onclick="showQRCode('{{ asset.qr_code_img }}')">
-                                <img src="data:image/png;base64,{{ asset.qr_code_img }}" alt="QR Code" />
-                            </a>
-                            <img src="data:image/png;base64,{{ asset.qr_code_img }}" alt="QR Code" style="display: none;" />
-
+                            {% if asset.qr_code %}
+                                <a href="#qrCodeModal" class="btn-view" onclick="showQRCode('{{ asset.qr_code.url }}')">
+                                    <img src="{{ asset.qr_code.url }}" alt="QR Code" />
+                                </a>
+                                <img src="{{ asset.qr_code.url }}" alt="QR Code" style="display: none;" />
+                            {% else %}
+                                <p>No QR Code available</p>
+                            {% endif %}
                         </td>
+                        
                         <td data-label="pictures" style="background-color: #fff;">
                             {% if asset.lampiran.exists %}
                                 {% for item in asset.lampiran.all %}
@@ -107,6 +113,19 @@
     </div>
 </div>
 
+  <!-- Search Popup -->
+  <div id="searchPopup" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="closeSearchPopup()">&times;</span>
+        <form method="GET" action="{% url 'search' %}">
+            <label for="search">Search:</label>
+            <input type="text" id="search" name="query" placeholder="Enter search term...">
+            <button type="submit">Search</button>
+        </form>
+    </div>
+</div>
+
+
 <script>
     function showQRCode(qrCodeData) {
         var modal = document.getElementById('qrCodeModal');
@@ -114,18 +133,27 @@
         var downloadLink = document.getElementById('downloadLink');
 
         // Set QR Code image source
-        qrCodeImage.src = 'data:image/png;base64,' + qrCodeData;
+        qrCodeImage.src = qrCodeData;
 
         // Set download link href
-        downloadLink.href = 'data:image/png;base64,' + qrCodeData;
+        downloadLink.href = qrCodeData;
 
         // Show modal
         modal.style.display = 'block';
     }
 
     function closeModal() {
-        var modal = document.getElementById('qrCodeModal');
-        modal.style.display = 'none';
+        document.getElementById('qrCodeModal').style.display = 'none';
+    }
+
+    function closeSearchPopup() {
+        var searchPopup = document.getElementById('searchPopup');
+        searchPopup.style.display = 'none';
+    }
+
+    function openSearchPopup() {
+        var searchPopup = document.getElementById('searchPopup');
+        searchPopup.style.display = 'block';
     }
 </script>
 

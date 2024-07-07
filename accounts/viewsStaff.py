@@ -3,59 +3,16 @@ from django.shortcuts import get_object_or_404, redirect, render
 from . forms import AsetBaruForm, DetailAsetForm, PembelianForm, LampiranForm, ProfileUpdateForm, KategoriForm, PenanggungJawabForm, PosisiAsetForm
 from django.contrib.auth.decorators import login_required
 from .models import AsetBaru, DetailAset, Pembelian, Lampiran, Kategori, PenanggungJawab, PosisiAsset
-import qrcode
-from django.core.files.base import ContentFile
-from io import BytesIO 
-import base64
-from PIL import Image, ImageDraw, ImageFont
+
 from django.db.models import Sum 
 from django.template.defaultfilters import floatformat
-from django.shortcuts import reverse
-from urllib.parse import urlparse
+
 
 from django.http import HttpResponse
 from tablib import Dataset
 from .resources import AsetBaruResource, DetailAsetResource, PembelianResource, LampiranResource, PenanggungJawabResource
 
 
-def generate_qr_code(data, kode_aset):
-    
-    # Initialize QRCode instance
-    qr = qrcode.QRCode(
-        version=1,
-        error_correction=qrcode.constants.ERROR_CORRECT_L,
-        box_size=10,
-        border=4,
-    )
-    qr.add_data(data)
-    qr.make(fit=True)
-    
-    # Generate QR code image
-    qr_img = qr.make_image(fill='black', back_color='white')
-    
-    # Convert QR code image to PIL Image
-    qr_pil_img = qr_img.convert('RGB')
-    width, height = qr_pil_img.size
-    
-    # Load a font
-    font = ImageFont.load_default()
-    
-    # Define text to be added below QR code
-    text = f"Aset DPRD Luwu Timur / Kode Aset: {kode_aset}"
-    
-    # Estimate text size and position (adjust as needed)
-    text_width = len(text) * 6  # Adjust based on font and text characteristics
-    text_height = 10  # Adjust based on font size and text characteristics
-    text_x = (width - text_width) // 2  # Center the text horizontally
-    text_y = height - text_height - 5  # 5 pixels margin from the bottom
-    
-    # Create a drawing context
-    draw = ImageDraw.Draw(qr_pil_img)
-    
-    # Add text to the image
-    draw.text((text_x, text_y), text, fill='black', font=font)
-    
-    return qr_pil_img
 
 def is_staff(user):
     return user.is_authenticated and user.is_staff
@@ -71,25 +28,6 @@ def staff(request):
 
     assets = AsetBaru.objects.all().order_by('-id')[:5]
     
-    for asset in assets:
-
-        detail_url = request.build_absolute_uri(reverse('asset_scan_detail', kwargs={'asset_id': asset.id}))
-
-        parsed_url = urlparse(detail_url)
-        url_to_display = f"{parsed_url.scheme}://{parsed_url.netloc}{parsed_url.path}"
-
-        # qr_data = f"Kode Aset: {asset.kode_aset}\nLink: {detail_url}"
-        
-        # Generate QR code image with additional text
-        qr_img = generate_qr_code(url_to_display, asset.kode_aset)
-    
-        
-        # Convert image to base64 string
-        buffer = BytesIO()
-        qr_img.save(buffer, format="PNG")
-        qr_img_str = base64.b64encode(buffer.getvalue()).decode("utf-8")
-        
-        asset.qr_code_img = qr_img_str  # Save base64 string for template
     
     context = {
         'total_assets': total_assets,
@@ -155,53 +93,20 @@ def create_aset(request):
     return render(request, 'dashboard/add_assets.html', context)
 
 
-# @user_passes_test(is_staff)
-# def list_aset(request):
-#     assets = AsetBaru.objects.all()
-#     for asset in assets:
-#         qr_data = f"Nama Aset: {asset.nama_aset}\nKode Aset: {asset.kode_aset}\nKategori: {asset.kategori}"
-#         qr_img = generate_qr_code(qr_data)
-#         buffer = BytesIO()
-#         qr_img.save(buffer, format="PNG")
-#         qr_img_str = base64.b64encode(buffer.getvalue()).decode("utf-8")
-#         asset.qr_code_img = qr_img_str  # Simpan string base64 sementara untuk template
-#     context = {
-#         'assets': assets,
-#     }
-#     return render(request, 'dashboard/list_assets.html', context)
 @login_required
-@user_passes_test(is_staff)
+@user_passes_test(lambda u: u.is_staff)
 def list_aset(request):
     assets = AsetBaru.objects.all().order_by('-id')
     posisi_aset = PosisiAsset.objects.all()
     lampiran = Lampiran.objects.all()
 
-    for asset in assets:
-        
-
-        detail_url = request.build_absolute_uri(reverse('asset_scan_detail', kwargs={'asset_id': asset.id}))
-
-        parsed_url = urlparse(detail_url)
-        url_to_display = f"{parsed_url.scheme}://{parsed_url.netloc}{parsed_url.path}"
-
-        # qr_data = f"Kode Aset: {asset.kode_aset}\nLink: {detail_url}"
-        
-        # Generate QR code image with additional text
-        qr_img = generate_qr_code(url_to_display, asset.kode_aset)
-        
-        # Convert image to base64 string
-        buffer = BytesIO()
-        qr_img.save(buffer, format="PNG")
-        qr_img_str = base64.b64encode(buffer.getvalue()).decode("utf-8")
-        
-        asset.qr_code_img = qr_img_str  # Simpan string base64 sementara untuk template
-    
     context = {
         'assets': assets,
         'posisi_aset': posisi_aset,
         'lampiran': lampiran
     }
     return render(request, 'dashboard/list_assets.html', context)
+
 
 @user_passes_test(is_staff)
 def dashboard_profile(request):

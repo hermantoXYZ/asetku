@@ -100,7 +100,7 @@ WSGI_APPLICATION = 'assetku.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'db_assetku',       # Nama database MySQL yang telah Anda buat
+        'NAME': 'db_sipasti',       # Nama database MySQL yang telah Anda buat
         'USER': 'root',   # Username MySQL Anda
         'PASSWORD': 'Hermanto+12',   # Password MySQL Anda
         'HOST': 'localhost',          # Lokasi host MySQL, misalnya 'localhost'
