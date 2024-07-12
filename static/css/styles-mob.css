@@ -126,13 +126,39 @@ footer {
 @media (max-width: 768px) {
     .container {
         flex-direction: column;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        width: 90%;
+        max-width: 900px;
     }
 
-    .image-box {
+    p {
+    margin-bottom: 20px;
+    max-width: 80%;
+    text-align: left;
+    color: #666;
+}
+
+.image-box {
         display: none;
     }
 
-    .login-box {
+.login-box {
         padding: 20px;
     }
+   
+.form-group {
+    position: relative;
+    margin-bottom: 20px;
+}
+
+.title {
+    font-size: 34px; /* Ukuran font */
+    color: #2e7d32; /* Warna teks */
+    margin-bottom: -5px; /* Jarak bawah */
+    text-align: left; /* Posisi teks ke tengah */
+    /* Opsi tambahan sesuai kebutuhan */
+}
+
+        
+
 }
